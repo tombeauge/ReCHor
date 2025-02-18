@@ -1,11 +1,18 @@
 package ch.epfl.rechor.journey;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public enum Vehicle {
     TRAM,
     METRO,
     TRAIN,
     BUS,
     FERRY,
-    ARIEL_LIFT,
-    FUNICULAR
+    AERIAL_LIFT,
+    FUNICULAR;
+
+    public final static List<Vehicle> ALL = List.of(values());
 }
+
