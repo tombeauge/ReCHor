@@ -13,6 +13,6 @@ public enum Vehicle {
     AERIAL_LIFT,
     FUNICULAR;
 
-    public final static List<Vehicle> ALL = List.of(values());
+    public final static List<Vehicle> ALL = List.of(Vehicle.values());
 }
 
