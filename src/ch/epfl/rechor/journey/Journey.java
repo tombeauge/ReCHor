@@ -22,49 +22,121 @@ public final record Journey(List<Leg> legs) {
          */
 
         legs = List.copyOf(legs);
-        for (Leg leg : legs) {
-            Preconditions.checkArgument(leg != null);
+        for (int i = 0; i < legs.size(); i++) {
 
+            //makes sure entries are non-null
+            Leg current = legs.get(i);
+            Objects.requireNonNull(current);
+
+             if (i > 0) {
+                 Leg previous = legs.get(i - 1);
+
+
+                 //makes sure the current leg does not begin before the arrival time of the previous leg
+                 Preconditions.checkArgument(!current.depTime().isBefore(previous.arrTime()));
+
+                 //makes sure the next leg departs from the same spot as where the previous leg left us
+                 Preconditions.checkArgument(current.depStop().equals(previous.arrStop()));
+
+                 //makes sure alternates between foot and transport
+                 boolean bothFoot = (current instanceof  Leg.Foot) && (previous instanceof Leg.Foot);
+                 boolean bothTransport = (current instanceof Leg.Transport) && (previous instanceof Leg.Transport);
+
+                 Preconditions.checkArgument(!bothFoot && !bothTransport);
+             }
         }
 
     }
 
-    public interface Leg {
-        public record IntermediateStop(Stop stop, LocalDateTime arrTime, LocalDateTime depTime){
+    public Stop depStop() {
+        return legs.getFirst().depStop();
+    }
+
+    public Stop arrStop() {
+        return legs.getLast().arrStop();
+    }
+
+    public LocalDateTime depTime() {
+        return legs.getFirst().depTime();
+    }
+
+    public LocalDateTime arrTime() {
+        return legs.getLast().arrTime();
+    }
+
+    public Duration duration() {
+        return Duration.between(depTime(), arrTime());
+    }
+
+    public sealed interface Leg {
+        record IntermediateStop(Stop stop, LocalDateTime arrTime, LocalDateTime depTime){
             public IntermediateStop {
+
                 Objects.requireNonNull(stop);
-                Preconditions.checkArgument(depTime.isBefore(arrTime()) || depTime.equals(arrTime()));
+                //checks arrival time does not occur before departure time
+                Preconditions.checkArgument(!arrTime.isBefore(depTime));
             }
         }
 
-        public record Transport(Stop stop, LocalDateTime arrTime, Stop arrStop, LocalDateTime depTime, List<IntermediateStop> intermediateStops, Vehicle vehicle, String route, String destination){
+        record Transport(Stop depStop, LocalDateTime arrTime, Stop arrStop, LocalDateTime depTime, List<IntermediateStop> intermediateStops, Vehicle vehicle, String route, String destination) implements Leg {
             public Transport {
-                /**
-                 * TODO
-                 * Le constructeur compact de Transport valide les arguments en vérifiant que
-                 *
-                 * aucun d'entre eux n'est null,
-                 * la date/heure d'arrivée n'est pas antérieure à celle de départ.
-                 *
-                 * Notez bien que des appels à requireNonNull ne sont nécessaires dans le constructeur que pour les arguments qui ne sont pas manipulés d'une manière ou d'une autre avant d'être stockés dans l'enregistrement. Par exemple, il n'est pas nécessaire d'utiliser requireNonNull pour intermediateStops puisque cet argument est passé à copyOf, qui lèvera elle-même une exception si cet argument est null.
-                 */
+                Objects.requireNonNull(depStop);
+                Objects.requireNonNull(arrTime);
+                Objects.requireNonNull(arrStop);
+                Objects.requireNonNull(depTime);
+                Objects.requireNonNull(vehicle);
+                Objects.requireNonNull(route);
+                Objects.requireNonNull(destination);
+
+                //checks arrival time does not occur before departure time
+                Preconditions.checkArgument(!arrTime.isBefore(depTime));
+
+                intermediateStops = List.copyOf(intermediateStops);
+            }
+
+            @Override
+            public Stop depStop() {
+                return depStop;
             }
         }
 
 
 
-        public record Foot(){}
+        record Foot(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime) implements Leg {
+            public Foot {
+                Objects.requireNonNull(depStop);
+                Objects.requireNonNull(arrTime);
+                Objects.requireNonNull(arrStop);
+                Objects.requireNonNull(depTime);
 
-        abstract Stop depStop();
+                //checks arrival time does not occur before departure time
+                Preconditions.checkArgument(!arrTime.isBefore(depTime));
+            }
 
-        abstract Stop arrStop();
+            @Override
+            public List<IntermediateStop> intermediateStops() {
+                //returns empty list since destinations on foot have no intermediate stops
+                return List.of();
+            }
+            
+            public boolean isTransfer() {
+                return (depStop().equals(arrStop));
+            }
+        }
 
-        abstract LocalDateTime depTime();
+        Stop depStop();
 
-        abstract LocalDateTime arrTime();
+        Stop arrStop();
 
-        //TODO return etape duration
-        default Duration duration();
+        LocalDateTime depTime();
+
+        LocalDateTime arrTime();
+        
+        List<IntermediateStop> intermediateStops();
+
+        default Duration duration() {
+            return Duration.between(depTime(), arrTime());
+        }
 
 
 

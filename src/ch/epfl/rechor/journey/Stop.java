@@ -2,6 +2,7 @@ package ch.epfl.rechor.journey;
 
 import ch.epfl.rechor.Preconditions;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public record Stop (String name, String platformName, double longitude, double latitude) {
