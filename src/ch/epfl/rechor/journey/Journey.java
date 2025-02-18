@@ -11,15 +11,7 @@ import java.util.Objects;
 
 public final record Journey(List<Leg> legs) {
     public Journey{
-        /**
-         * TODO
-         * Journey possède un constructeur compact qui valide la liste des étapes reçue en vérifiant que:
-         *
-         * elle n'est pas vide,
-         * les étapes à pied alternent avec celles en transport,
-         * pour toutes les étapes sauf la première, l'instant de départ ne précède pas celui d'arrivée de la précédente,
-         * pour toutes les étapes sauf la première, l'arrêt de départ est identique à l'arrêt d'arrivée de la précédente.
-         */
+        Preconditions.checkArgument(!legs.isEmpty());
 
         legs = List.copyOf(legs);
         for (int i = 0; i < legs.size(); i++) {
@@ -69,16 +61,18 @@ public final record Journey(List<Leg> legs) {
     }
 
     public sealed interface Leg {
-        record IntermediateStop(Stop stop, LocalDateTime arrTime, LocalDateTime depTime){
+       record IntermediateStop(Stop stop, LocalDateTime arrTime, LocalDateTime depTime){
             public IntermediateStop {
 
                 Objects.requireNonNull(stop);
+                Objects.requireNonNull(arrTime);
+                Objects.requireNonNull(depTime);
                 //checks arrival time does not occur before departure time
-                Preconditions.checkArgument(!arrTime.isBefore(depTime));
+                Preconditions.checkArgument(!depTime.isBefore(arrTime));
             }
         }
 
-        record Transport(Stop depStop, LocalDateTime arrTime, Stop arrStop, LocalDateTime depTime, List<IntermediateStop> intermediateStops, Vehicle vehicle, String route, String destination) implements Leg {
+        record Transport(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime, List<IntermediateStop> intermediateStops, Vehicle vehicle, String route, String destination) implements Leg {
             public Transport {
                 Objects.requireNonNull(depStop);
                 Objects.requireNonNull(arrTime);
@@ -90,6 +84,7 @@ public final record Journey(List<Leg> legs) {
 
                 //checks arrival time does not occur before departure time
                 Preconditions.checkArgument(!arrTime.isBefore(depTime));
+
 
                 intermediateStops = List.copyOf(intermediateStops);
             }
@@ -120,7 +115,7 @@ public final record Journey(List<Leg> legs) {
             }
             
             public boolean isTransfer() {
-                return (depStop().equals(arrStop));
+                return (depStop().name().equals(arrStop().name()));
             }
         }
 
