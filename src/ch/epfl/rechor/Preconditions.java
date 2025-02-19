@@ -1,5 +1,9 @@
 package ch.epfl.rechor;
 
+/**
+ * @author Tom Beauge
+ *
+ */
 public final class Preconditions {
     private Preconditions() {
 

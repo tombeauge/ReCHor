@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *
+ * @author Tom Beauge
+ * @param legs
+ */
 public final record Journey(List<Leg> legs) {
     public Journey{
         Preconditions.checkArgument(!legs.isEmpty());
