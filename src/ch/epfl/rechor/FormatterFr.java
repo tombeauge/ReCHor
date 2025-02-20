@@ -18,6 +18,12 @@ public final class FormatterFr {
     private FormatterFr() {
     }
 
+    /**
+     *
+     * @param duration
+     * @return the formatted version of the duration of the journey in terms of hours and minutes
+     * @throws NullPointerException if duration is null
+     */
     public static String formatDuration(Duration duration) {
         Objects.requireNonNull(duration);
 
@@ -32,6 +38,12 @@ public final class FormatterFr {
         }
     }
 
+    /**
+     *
+     * @param dateTime
+     * @return formatted version of the time including day/month/year
+     * @throws NullPointerException if dateTime is null
+     */
     public static String formatTime(LocalDateTime dateTime) {
         Objects.requireNonNull(dateTime);
 
@@ -45,6 +57,11 @@ public final class FormatterFr {
         return dateTime.format(formatter);
     }
 
+    /**
+     *
+     * @param stop
+     * @return formatted version of the stops name after checking if it is a quai or a voie
+     */
     public static String formatPlatformName(Stop stop) {
         if (stop.platformName() == null || stop.platformName().isEmpty()) {
             return "";
@@ -57,6 +74,13 @@ public final class FormatterFr {
         }
     }
 
+    /**
+     *
+     * @param footLeg
+     * @return formatted version of the time spent walking depending on if you change stops
+     * where it is called "changement" or if it is the same stop where it is called "trajet à pied".
+     * @throws NullPointerException if footLeg is null
+     */
     public static String formatLeg(Journey.Leg.Foot footLeg) {
         Objects.requireNonNull(footLeg);
 
@@ -67,6 +91,11 @@ public final class FormatterFr {
         return sb.toString();
     }
 
+    /**
+     * @param leg
+     * @return formatted version of a leg of the public transport
+     * @throws NullPointerException if leg is null
+     */
     public static String formatLeg(Journey.Leg.Transport leg) {
         Objects.requireNonNull(leg);
 
@@ -96,6 +125,11 @@ public final class FormatterFr {
         return sb.toString();
     }
 
+    /**
+     * @param transportLeg
+     * @return formatted version of the line the type of public transport takes.
+     * @throws NullPointerException if transportLeg is null and gives a message
+     */
     public static String formatRouteDestination(Journey.Leg.Transport transportLeg) {
         Objects.requireNonNull(transportLeg, "transportLeg is null");
 

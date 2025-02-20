@@ -23,6 +23,7 @@ import java.util.Objects;
 public final record Journey(List<Leg> legs) {
     /**
      * @throws IllegalArgumentException if the preconditions mentioned above are not met
+     * @throws NullPointerException if current is null
      */
     public Journey{
         Preconditions.checkArgument(!legs.isEmpty());
