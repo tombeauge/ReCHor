@@ -1,5 +1,7 @@
 package ch.epfl.rechor;
 
+import java.time.LocalDateTime;
+
 public final class IcalBuilder {
     private final int MAX_LINE_LENGTH = 75;
     private static final String CRLF = "\r\n";
@@ -42,4 +44,23 @@ public final class IcalBuilder {
 
         return this;
     }
+
+    //TODO
+    public IcalBuilder add(Name name, LocalDateTime dateTime) {
+        return null;
+    }
+
+    public IcalBuilder begin(Component component) {
+        return null;
+    }
+
+    public IcalBuilder end() {
+        return null;
+    }
+
+    public String build() {
+        return null;
+    }
+
 }
+
