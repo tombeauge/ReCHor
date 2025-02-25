@@ -11,9 +11,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.Objects;
 
-/**
- * @author Tom Beauge
- */
 public final class FormatterFr {
     private FormatterFr() {
     }
