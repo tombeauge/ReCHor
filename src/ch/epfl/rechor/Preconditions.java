@@ -2,7 +2,6 @@ package ch.epfl.rechor;
 
 /**
  * Handles checking certain preconditions and arguments
- * @author Tom Beauge
  */
 public final class Preconditions {
     private Preconditions() {
