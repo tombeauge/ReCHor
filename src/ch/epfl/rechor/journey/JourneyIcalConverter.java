@@ -11,6 +11,10 @@ public class JourneyIcalConverter {
 
     IcalBuilder builder = new IcalBuilder();
 
+    private JourneyIcalConverter() {
+        throw new UnsupportedOperationException("This class cannot be instantiated");
+    }
+
     String toIcalendar(Journey journey) {
 
         StringJoiner descriptionJoiner = new StringJoiner("\n"); // Line break in iCalendar format
