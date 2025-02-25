@@ -7,7 +7,6 @@ import java.util.Objects;
 
 /**
  * Constructs a Stop using the stops name, the platform name and the longitude and latitude of the position where it is located
- * @author Tom Beauge
  * @param name
  * @param platformName
  * @param longitude

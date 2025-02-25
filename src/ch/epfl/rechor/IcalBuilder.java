@@ -55,14 +55,14 @@ public final class IcalBuilder {
      * @return The current IcalBuilder instance.
      */
     public IcalBuilder add(Name name, String value) {
-        int nChar = 0;
-        StringBuilder text = new StringBuilder(name + ": " + value);
+        StringBuilder text = new StringBuilder(name + ":" + value);
         int textLength = text.length();
+        int nChar = 0;
 
         while (nChar < textLength) {
-            if (nChar % MAX_LINE_LENGTH == 0) {
+            if (nChar > 0 && (nChar % MAX_LINE_LENGTH == 0)) {
                 text.insert(nChar, CRLF + " ");
-                textLength += 3; // Accounts for CRLF character count as well as space.
+                textLength += CRLF.length() + 1; // Count both CRLF and space
             }
             nChar++;
         }
@@ -70,6 +70,7 @@ public final class IcalBuilder {
         sb.append(text).append(CRLF);
         return this;
     }
+
 
     /**
      * Adds a key-value pair where the value is a LocalDateTime.
