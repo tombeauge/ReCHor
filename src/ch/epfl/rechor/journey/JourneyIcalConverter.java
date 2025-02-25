@@ -1,6 +1,7 @@
 package ch.epfl.rechor.journey;
 
 import ch.epfl.rechor.FormatterFr;
+import ch.epfl.rechor.IcalBuilder;
 
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
@@ -8,39 +9,34 @@ import java.util.UUID;
 
 public class JourneyIcalConverter {
 
-    String toIcalendar(Journey journey) {
-        String UID = UUID.randomUUID().toString();
-        String DTstamp = LocalDateTime.now().toString();
-        String DTstart = journey.depTime().toString();
-        String DTend = journey.arrTime().toString();
-        String summary = journey.depStop().toString() + " → " + journey.arrStop().toString();
+    IcalBuilder builder = new IcalBuilder();
 
-        StringJoiner sj = new StringJoiner("\n");
+    String toIcalendar(Journey journey) {
+
+        StringJoiner descriptionJoiner = new StringJoiner("\n"); // Line break in iCalendar format
         for (Journey.Leg leg : journey.legs()) {
             switch (leg) {
-                case Journey.Leg.Foot f -> System.out.println("étape à pied : " + f);
-                case Journey.Leg.Transport t -> System.out.println("étape en transport : " + t);
+                case Journey.Leg.Foot f -> descriptionJoiner.add(FormatterFr.formatLeg(f));
+                case Journey.Leg.Transport t -> descriptionJoiner.add(FormatterFr.formatLeg(t));
             }
         }
+        String description = descriptionJoiner.toString();
 
-        String description;
-        //description = sj.add(FormatterFr.formatTime(journey.depTime())).add(FormatterFr.formatPlatformName(journey.depStop())).add();
-        //TODO
-        description = FormatterFr.formatTime(journey.depTime()) + " " + summary;
+        builder.begin(IcalBuilder.Component.VCALENDAR);
+        builder.add(IcalBuilder.Name.VERSION, "2.0");
+        builder.add(IcalBuilder.Name.PRODID, "ReCHor");
+        builder.begin(IcalBuilder.Component.VEVENT);
+        builder.add(IcalBuilder.Name.UID, UUID.randomUUID().toString());
+        builder.add(IcalBuilder.Name.DTSTAMP, LocalDateTime.now());
+        builder.add(IcalBuilder.Name.DTSTART, journey.depTime());
+        builder.add(IcalBuilder.Name.DTEND, journey.arrTime());
+        builder.add(IcalBuilder.Name.SUMMARY, journey.depStop().toString() + " → " + journey.arrStop().toString());
+        builder.add(IcalBuilder.Name.DESCRIPTION, FormatterFr.formatTime(journey.depTime()) + " " + description);
+        builder.end();
+        builder.end();
 
 
-        return "BEGIN:VCALENDAR\n" +
-                "VERSION:2.0\n" +
-                "PRODID:ReCHor\n" +
-                "BEGIN:VEVENT\n" +
-                "UID:" + UID + "\n" +
-                "DTSTAMP" + DTstamp + "\n" +
-                "DTSTART" + DTstart + "\n" +
-                "DTEND" + DTend + "\n" +
-                "SUMMARY" + summary + "\n" +
-                "DESCRIPTION" + description + "\n" +
-                "END:VEVENT\n" +
-                "END:VCALENDAR";
+        return null;
 
 
     }
