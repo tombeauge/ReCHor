@@ -74,7 +74,28 @@ public class PackedCriteria {
     }
 
     public static long withoutDepMins(long criteria) {
-        return 1;
+        return criteria & ((1L << PAY_BITS + CHANGE_BITS + ARR_BITS) - 1);
+    }
+
+    public static long withDepMins(long criteria, int depMins1) {
+        return withoutDepMins(criteria) | ((long) depMins1 << 51);
+    }
+
+    public static long withAdditionalChange(long criteria) {
+        int a = arrMins(criteria);
+        int b = changes(criteria) + 1;
+        int c = payload(criteria);
+        if (hasDepMins(criteria)) {
+            return withDepMins(pack(a,b,c), depMins(criteria));
+        }
+        else {
+            return pack(a, b, c);
+        }
+
+    }
+
+    public static long withPayload(long criteria, int payload1) {
+        return (criteria >>> PAY_BITS) << PAY_BITS + payload1;
     }
 
 
