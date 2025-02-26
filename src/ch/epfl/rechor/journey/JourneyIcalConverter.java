@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public class JourneyIcalConverter {
 
-    IcalBuilder builder = new IcalBuilder();
-
     private JourneyIcalConverter() {
         throw new UnsupportedOperationException("This class cannot be instantiated");
     }
 
-    String toIcalendar(Journey journey) {
+    public static String toIcalendar(Journey journey) {
+
+        IcalBuilder builder = new IcalBuilder();
 
         StringJoiner descriptionJoiner = new StringJoiner("\n"); // Line break in iCalendar format
         for (Journey.Leg leg : journey.legs()) {
@@ -41,8 +41,6 @@ public class JourneyIcalConverter {
 
 
         return null;
-
-
     }
 
 }
