@@ -3,10 +3,6 @@ package ch.epfl.rechor.journey;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ch.epfl.rechor.IcalBuilder;
-import ch.epfl.rechor.journey.JourneyIcalConverter;
-
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
@@ -21,7 +17,7 @@ import org.junit.jupiter.api.Test;
  *   - A VEVENT component with UID, DTSTAMP, DTSTART, DTEND, SUMMARY, and DESCRIPTION.
  * The DESCRIPTION should be built using FormatterFr.formatTime followed by formatted legs.
  */
-public class JourneyIcalConverterTest {
+public class MyJourneyIcalConverterTest {
 
     // Dummy FormatterFr implementation used by JourneyIcalConverter.
     public static class FormatterFr {
@@ -50,14 +46,7 @@ public class JourneyIcalConverterTest {
      * Retrieves the final iCalendar string built by the JourneyIcalConverter.
      */
     private String getIcalContent(Journey journey) throws Exception {
-        JourneyIcalConverter converter = new JourneyIcalConverter();
-        String result = converter.toIcalendar(journey);
-        // As per specification, toIcalendar returns null, and the output is built internally.
-        assertNull(result, "Expected toIcalendar() to return null");
-        Field builderField = JourneyIcalConverter.class.getDeclaredField("builder");
-        builderField.setAccessible(true);
-        IcalBuilder builder = (IcalBuilder) builderField.get(converter);
-        return builder.build();
+        return JourneyIcalConverter.toIcalendar(journey);
     }
 
     /**
