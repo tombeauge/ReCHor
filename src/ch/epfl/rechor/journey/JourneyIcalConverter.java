@@ -17,7 +17,7 @@ public class JourneyIcalConverter {
 
         IcalBuilder builder = new IcalBuilder();
 
-        StringJoiner descriptionJoiner = new StringJoiner("\n"); // Line break in iCalendar format
+        StringJoiner descriptionJoiner = new StringJoiner("\n "); // Line break in iCalendar format (CRLF)
         for (Journey.Leg leg : journey.legs()) {
             switch (leg) {
                 case Journey.Leg.Foot f -> descriptionJoiner.add(FormatterFr.formatLeg(f));
@@ -34,13 +34,12 @@ public class JourneyIcalConverter {
         builder.add(IcalBuilder.Name.DTSTAMP, LocalDateTime.now());
         builder.add(IcalBuilder.Name.DTSTART, journey.depTime());
         builder.add(IcalBuilder.Name.DTEND, journey.arrTime());
-        builder.add(IcalBuilder.Name.SUMMARY, journey.depStop().toString() + " → " + journey.arrStop().toString());
+        builder.add(IcalBuilder.Name.SUMMARY, journey.depStop().name() + " → " + journey.arrStop().name());
         builder.add(IcalBuilder.Name.DESCRIPTION, FormatterFr.formatTime(journey.depTime()) + " " + description);
         builder.end();
         builder.end();
 
 
-        return null;
+        return builder.build();
     }
-
 }

@@ -5,112 +5,211 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test class for the PackedCriteria utility.
+ * Assumes that PackedCriteria is in the journey package and that its methods
+ * behave according to the project specification.
+ */
 public class MyPackedCriteriaTest {
 
     @Test
-    void pack_ValidInputs_ReturnsPackedValue() {
-        long packed = PackedCriteria.pack(500, 10, 12345);
-        assertEquals(500, PackedCriteria.arrMins(packed));
-        assertEquals(10, PackedCriteria.changes(packed));
-        assertEquals(12345, PackedCriteria.payload(packed));
+    public void testPackValidCriteriaWithoutDep() {
+        int arrMins = 1000; // valid: between -240 (inclusive) and 2880 (exclusive)
+        int changes = 1;    // fits in 7 bits (< 128)
+        int payload = 42;
+        long criteria = PackedCriteria.pack(arrMins, changes, payload);
+        // Without departure minute, hasDepMins should be false.
+        assertFalse(PackedCriteria.hasDepMins(criteria));
+        assertEquals(arrMins, PackedCriteria.arrMins(criteria));
+        assertEquals(changes, PackedCriteria.changes(criteria));
+        assertEquals(payload, PackedCriteria.payload(criteria));
     }
 
     @Test
-    void pack_InvalidArrivalTime_ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> PackedCriteria.pack(-241, 5, 100));
-        assertThrows(IllegalArgumentException.class, () -> PackedCriteria.pack(2880, 5, 100));
+    public void testPackInvalidArrMins() {
+        int changes = 0;
+        int payload = 0;
+        // arrMins below valid range should throw exception.
+        assertThrows(IllegalArgumentException.class, () ->
+                PackedCriteria.pack(-241, changes, payload)
+        );
+        // arrMins at or above 2880 should throw exception.
+        assertThrows(IllegalArgumentException.class, () ->
+                PackedCriteria.pack(2880, changes, payload)
+        );
     }
 
     @Test
-    void pack_TooManyChanges_ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> PackedCriteria.pack(500, 128, 100));
+    public void testPackInvalidChanges() {
+        int arrMins = 1000;
+        int payload = 0;
+        // changes that do not fit in 7 bits (>=128) should throw exception.
+        assertThrows(IllegalArgumentException.class, () ->
+                PackedCriteria.pack(arrMins, 128, payload)
+        );
     }
 
     @Test
-    void hasDepMins_CorrectlyIdentifiesPresence() {
-        long packedWithDep = PackedCriteria.withDepMins(PackedCriteria.pack(600, 5, 300), 400);
-        long packedWithoutDep = PackedCriteria.withoutDepMins(packedWithDep);
+    public void testWithDepMins() {
+        int arrMins = 1200;
+        int changes = 2;
+        int payload = 99;
+        long criteria = PackedCriteria.pack(arrMins, changes, payload);
+        // Initially, criteria does not include a departure minute.
+        assertFalse(PackedCriteria.hasDepMins(criteria));
 
-        assertTrue(PackedCriteria.hasDepMins(packedWithDep));
-        assertFalse(PackedCriteria.hasDepMins(packedWithoutDep));
+        int dep = 720;
+        long criteriaWithDep = PackedCriteria.withDepMins(criteria, dep);
+        assertTrue(PackedCriteria.hasDepMins(criteriaWithDep));
+        // Verify that the departure minute is correctly added.
+        assertEquals(dep, PackedCriteria.depMins(criteriaWithDep));
+        // Other fields should remain unchanged.
+        assertEquals(arrMins, PackedCriteria.arrMins(criteriaWithDep));
+        assertEquals(changes, PackedCriteria.changes(criteriaWithDep));
+        assertEquals(payload, PackedCriteria.payload(criteriaWithDep));
     }
 
     @Test
-    void depMins_ThrowsWhenNoDepartureTime() {
-        long packed = PackedCriteria.pack(500, 3, 42);
-        assertThrows(IllegalArgumentException.class, () -> PackedCriteria.depMins(packed));
+    public void testDepMinsThrowsWhenNoDep() {
+        int arrMins = 1000;
+        int changes = 1;
+        int payload = 50;
+        long criteria = PackedCriteria.pack(arrMins, changes, payload);
+        // Attempting to retrieve departure minute when none is set should throw.
+        assertThrows(IllegalArgumentException.class, () ->
+                PackedCriteria.depMins(criteria)
+        );
     }
 
     @Test
-    void depMins_ReturnsCorrectValue() {
-        long packed = PackedCriteria.withDepMins(PackedCriteria.pack(700, 4, 500), 300);
-        assertEquals(300, PackedCriteria.depMins(packed));
+    public void testWithoutDepMins() {
+        int arrMins = 1300;
+        int changes = 3;
+        int payload = 77;
+        long criteria = PackedCriteria.pack(arrMins, changes, payload);
+        int dep = 800;
+        long criteriaWithDep = PackedCriteria.withDepMins(criteria, dep);
+        assertTrue(PackedCriteria.hasDepMins(criteriaWithDep));
+
+        long criteriaWithoutDep = PackedCriteria.withoutDepMins(criteriaWithDep);
+        // Now the criteria should no longer include a departure minute.
+        assertFalse(PackedCriteria.hasDepMins(criteriaWithoutDep));
+        // Other values remain unchanged.
+        assertEquals(arrMins, PackedCriteria.arrMins(criteriaWithoutDep));
+        assertEquals(changes, PackedCriteria.changes(criteriaWithoutDep));
+        assertEquals(payload, PackedCriteria.payload(criteriaWithoutDep));
+        // Calling depMins now should throw an exception.
+        assertThrows(IllegalArgumentException.class, () ->
+                PackedCriteria.depMins(criteriaWithoutDep)
+        );
     }
 
     @Test
-    void arrMins_ReturnsCorrectValue() {
-        long packed = PackedCriteria.pack(750, 2, 999);
-        assertEquals(750, PackedCriteria.arrMins(packed));
+    public void testWithAdditionalChange() {
+        int arrMins = 1100;
+        int changes = 2;
+        int payload = 10;
+        long criteria = PackedCriteria.pack(arrMins, changes, payload);
+        long updatedCriteria = PackedCriteria.withAdditionalChange(criteria);
+        // The number of changes should be incremented.
+        assertEquals(changes + 1, PackedCriteria.changes(updatedCriteria));
+        // Other fields should be unchanged.
+        assertEquals(arrMins, PackedCriteria.arrMins(updatedCriteria));
+        assertEquals(payload, PackedCriteria.payload(updatedCriteria));
+        assertEquals(PackedCriteria.hasDepMins(criteria), PackedCriteria.hasDepMins(updatedCriteria));
     }
 
     @Test
-    void changes_ReturnsCorrectValue() {
-        long packed = PackedCriteria.pack(900, 7, 50);
-        assertEquals(7, PackedCriteria.changes(packed));
+    public void testWithPayload() {
+        int arrMins = 900;
+        int changes = 1;
+        int payload = 123;
+        long criteria = PackedCriteria.pack(arrMins, changes, payload);
+        int newPayload = 456;
+        long updatedCriteria = PackedCriteria.withPayload(criteria, newPayload);
+        assertEquals(newPayload, PackedCriteria.payload(updatedCriteria));
+        // Ensure other components remain unchanged.
+        assertEquals(arrMins, PackedCriteria.arrMins(criteria));
+        assertEquals(arrMins, PackedCriteria.arrMins(updatedCriteria));
+        assertEquals(changes, PackedCriteria.changes(updatedCriteria));
+        assertEquals(PackedCriteria.hasDepMins(criteria), PackedCriteria.hasDepMins(updatedCriteria));
     }
 
     @Test
-    void payload_ReturnsCorrectValue() {
-        long packed = PackedCriteria.pack(1000, 1, 5555);
-        assertEquals(5555, PackedCriteria.payload(packed));
+    public void testDominatesOrIsEqualWithoutDep() {
+        // Create two criteria without departure minutes.
+        int arrMins1 = 1000;
+        int changes1 = 1;
+        int payload1 = 10;
+        long crit1 = PackedCriteria.pack(arrMins1, changes1, payload1);
+
+        int arrMins2 = 1100;
+        int changes2 = 2;
+        int payload2 = 20;
+        long crit2 = PackedCriteria.pack(arrMins2, changes2, payload2);
+
+        // Since crit1 has an earlier arrival (smaller value) and fewer changes, it should dominate or be equal.
+        assertTrue(PackedCriteria.dominatesOrIsEqual(crit1, crit2));
+        // The reverse should not hold.
+        assertFalse(PackedCriteria.dominatesOrIsEqual(crit2, crit1));
+        // If two criteria are identical, domination holds.
+        long critEqual = PackedCriteria.pack(arrMins1, changes1, payload1);
+        assertTrue(PackedCriteria.dominatesOrIsEqual(crit1, critEqual));
     }
 
     @Test
-    void dominatesOrIsEqual_ValidComparisons() {
-        long packed1 = PackedCriteria.pack(800, 2, 100);
-        long packed2 = PackedCriteria.pack(900, 3, 150);
-
-        assertTrue(PackedCriteria.dominatesOrIsEqual(packed1, packed2)); // Earlier arrival, fewer changes
-        assertFalse(PackedCriteria.dominatesOrIsEqual(packed2, packed1));
+    public void testDominatesOrIsEqualWithMismatchDep() {
+        int arrMins = 1000;
+        int changes = 1;
+        int payload = 0;
+        long critWithoutDep = PackedCriteria.pack(arrMins, changes, payload);
+        long critWithDep = PackedCriteria.withDepMins(critWithoutDep, 700);
+        // Comparing criteria when one includes a departure minute and the other does not should throw.
+        assertThrows(IllegalArgumentException.class, () ->
+                PackedCriteria.dominatesOrIsEqual(critWithoutDep, critWithDep)
+        );
+        assertThrows(IllegalArgumentException.class, () ->
+                PackedCriteria.dominatesOrIsEqual(critWithDep, critWithoutDep)
+        );
     }
 
     @Test
-    void dominatesOrIsEqual_MismatchedDeparture_ThrowsException() {
-        long packed1 = PackedCriteria.withDepMins(PackedCriteria.pack(1000, 3, 200), 500);
-        long packed2 = PackedCriteria.pack(1000, 3, 200);
+    public void testPackUnpackFullCriteria() {
+        int depMins = 600;  // 10:00 AM
+        int arrMins = 900;  // 3:00 PM
+        int changes = 3;
+        int payload = 99;
 
-        assertThrows(IllegalArgumentException.class, () -> PackedCriteria.dominatesOrIsEqual(packed1, packed2));
+        // Pack criteria including departure minutes
+        long packed = PackedCriteria.withDepMins(PackedCriteria.pack(arrMins, changes, payload), depMins);
+
+        // Ensure all unpacked values match the original ones
+        assertTrue(PackedCriteria.hasDepMins(packed), "Packed criteria should have departure minutes");
+        assertEquals(depMins, PackedCriteria.depMins(packed), "Unpacked departure minutes should match");
+        assertEquals(arrMins, PackedCriteria.arrMins(packed), "Unpacked arrival minutes should match");
+        assertEquals(changes, PackedCriteria.changes(packed), "Unpacked changes should match");
+        assertEquals(payload, PackedCriteria.payload(packed), "Unpacked payload should match");
     }
 
     @Test
-    void withoutDepMins_RemovesDepartureTime() {
-        long packedWithDep = PackedCriteria.withDepMins(PackedCriteria.pack(600, 5, 100), 300);
-        long packedWithoutDep = PackedCriteria.withoutDepMins(packedWithDep);
+    public void testPackUnpackWithoutDepMins() {
+        int arrMins = 1100;  // 6:20 PM
+        int changes = 2;
+        int payload = 50;
 
-        assertFalse(PackedCriteria.hasDepMins(packedWithoutDep));
-    }
+        // Pack criteria without departure minutes
+        long packed = PackedCriteria.pack(arrMins, changes, payload);
 
-    @Test
-    void withDepMins_AddsDepartureTime() {
-        long packed = PackedCriteria.pack(700, 4, 800);
-        long packedWithDep = PackedCriteria.withDepMins(packed, 350);
+        // Ensure that depMins is not present
+        assertFalse(PackedCriteria.hasDepMins(packed), "Packed criteria should not have departure minutes");
+        assertEquals(arrMins, PackedCriteria.arrMins(packed), "Unpacked arrival minutes should match");
+        assertEquals(changes, PackedCriteria.changes(packed), "Unpacked changes should match");
+        assertEquals(payload, PackedCriteria.payload(packed), "Unpacked payload should match");
 
-        assertEquals(350, PackedCriteria.depMins(packedWithDep));
-    }
-
-    @Test
-    void withAdditionalChange_IncreasesChangeCount() {
-        long packed = PackedCriteria.pack(1100, 2, 900);
-        long packedUpdated = PackedCriteria.withAdditionalChange(packed);
-
-        assertEquals(3, PackedCriteria.changes(packedUpdated));
-    }
-
-    @Test
-    void withPayload_UpdatesPayloadCorrectly() {
-        long packed = PackedCriteria.pack(1200, 1, 555);
-        long updated = PackedCriteria.withPayload(packed, 9999);
-
-        assertEquals(9999, PackedCriteria.payload(updated));
+        // Calling depMins should throw an exception
+        assertThrows(IllegalArgumentException.class, () ->
+                        PackedCriteria.depMins(packed),
+                "Should throw when trying to access depMins from a criteria without it"
+        );
     }
 }
