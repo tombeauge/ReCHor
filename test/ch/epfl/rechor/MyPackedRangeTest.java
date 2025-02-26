@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests for the {@link PackedRange} class.
  */
-public class PackedRangeTest {
+public class MyPackedRangeTest {
 
     @Test
     public void testPackValidRange() {

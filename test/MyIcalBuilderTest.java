@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests for the {@link IcalBuilder} class.
  */
-public class IcalBuilderTest {
+public class MyIcalBuilderTest {
 
     /**
      * Helper method to assert that expected output matches actual output.
