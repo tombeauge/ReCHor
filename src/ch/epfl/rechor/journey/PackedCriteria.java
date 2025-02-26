@@ -81,6 +81,7 @@ public class PackedCriteria {
         return withoutDepMins(criteria) | ((long) depMins1 << 51);
     }
 
+    // unpacks and repackages everything after adding a 1 to the changes value
     public static long withAdditionalChange(long criteria) {
         int a = arrMins(criteria);
         int b = changes(criteria) + 1;
@@ -91,14 +92,10 @@ public class PackedCriteria {
         else {
             return pack(a, b, c);
         }
-
     }
 
     public static long withPayload(long criteria, int payload1) {
         return (criteria >>> PAY_BITS) << PAY_BITS + payload1;
     }
-
-
-
 
 }
