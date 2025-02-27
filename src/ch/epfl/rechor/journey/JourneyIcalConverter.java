@@ -7,17 +7,32 @@ import java.time.LocalDateTime;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+/**
+ * Class used to convert journeys into Strings using the Icalender format
+ */
 public class JourneyIcalConverter {
 
+    /**
+     * Private constructor with no parameters to prevent instantiation
+     */
     private JourneyIcalConverter() {
         throw new UnsupportedOperationException("This class cannot be instantiated");
     }
 
+    /**
+     *
+     * @param journey
+     * @return A String which describes certain aspects of a trip/journey according to the principles of
+     * the Icalender format providing values such as the local time, start time of journey, description,
+     * and summary.
+     */
     public static String toIcalendar(Journey journey) {
 
         IcalBuilder builder = new IcalBuilder();
 
         StringJoiner descriptionJoiner = new StringJoiner("\n "); // Line break in iCalendar format (CRLF)
+
+        //Loop that formats the description to let it know if a leg of the journey is on foot or by public transport
         for (Journey.Leg leg : journey.legs()) {
             switch (leg) {
                 case Journey.Leg.Foot f -> descriptionJoiner.add(FormatterFr.formatLeg(f));

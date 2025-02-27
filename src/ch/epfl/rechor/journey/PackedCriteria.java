@@ -1,7 +1,14 @@
 package ch.epfl.rechor.journey;
 
+/**
+ * Utility class for packing and unpacking criteria values into a single long value.
+ * This class encodes arrival minutes, number of changes, and a payload into a compact format.
+ */
 public class PackedCriteria {
 
+    /**
+     * Private constructor with no parameters to prevent instantiation
+     */
     private PackedCriteria() {
         throw new UnsupportedOperationException("This class cannot be instantiated");
     }
@@ -15,7 +22,15 @@ public class PackedCriteria {
     private static final int PAY_BITS = 32;
     private static final long MAX_PAYBITS = (1L << PAY_BITS) - 1;
 
-
+    /**
+     * Packs the given criteria values into a long.
+     *
+     * @param arrMins  Arrival time in minutes (must be within valid range).
+     * @param changes  Number of changes (must be within valid range).
+     * @param payload  Additional data payload.
+     * @return A long value representing the packed criteria.
+     * @throws IllegalArgumentException if the input values are out of bounds.
+     */
     public static long pack(int arrMins, int changes, int payload) {
         if (arrMins < MIN_ARRIVAL_MINS || arrMins >= MAX_ARRIVAL_MINS) {
             throw new IllegalArgumentException("Invalid arrival minutes: " + arrMins);
@@ -31,6 +46,12 @@ public class PackedCriteria {
         return am | ch | pl;
     }
 
+    /**
+     * Checks if the packed criteria contains departure minutes.
+     *
+     * @param criteria The packed criteria.
+     * @return True if departure minutes are present, false otherwise.
+     */
     public static boolean hasDepMins(long criteria) {
         if (criteria >>> 51 != 0) {
             return true;
@@ -38,6 +59,13 @@ public class PackedCriteria {
         else return false;
     }
 
+    /**
+     * Extracts the departure minutes from the packed criteria.
+     *
+     * @param criteria The packed criteria.
+     * @return The departure minutes.
+     * @throws IllegalArgumentException if departure minutes are not provided.
+     */
     public static int depMins(long criteria) {
         if (criteria >>> 51 != 0) {
             return (int) (criteria >>> 51);
@@ -47,18 +75,44 @@ public class PackedCriteria {
         }
     }
 
+    /**
+     * Extracts the arrival minutes from the packed criteria.
+     *
+     * @param criteria The packed criteria.
+     * @return The arrival minutes.
+     */
     public static int arrMins(long criteria) {
         return (int) ((criteria >>> 39) + MIN_ARRIVAL_MINS) & (MAX_ARRBITS);
     }
 
+    /**
+     * Extracts the number of changes from the packed criteria.
+     *
+     * @param criteria The packed criteria.
+     * @return The number of changes.
+     */
     public static int changes(long criteria) {
         return (int) (criteria >>> 32) & (MAX_CHANGES);
     }
 
+    /**
+     * Extracts the payload from the packed criteria.
+     *
+     * @param criteria The packed criteria.
+     * @return The payload.
+     */
     public static int payload(long criteria) {
         return (int) (criteria) & (int)(MAX_PAYBITS);
     }
 
+    /**
+     * Determines if one criteria dominates or is equal to another.
+     *
+     * @param criteria1 The first criteria.
+     * @param criteria2 The second criteria.
+     * @return True if criteria1 dominates or is equal to criteria2, false otherwise.
+     * @throws IllegalArgumentException if one criteria has departure time and the other does not.
+     */
     //assuming that dominates means arrival time and n. of changes is less and dep. time is more for criteria 1 compared to criteria 2
     public static boolean dominatesOrIsEqual(long criteria1, long criteria2) {
         boolean hasDep1 = hasDepMins(criteria1);
@@ -74,15 +128,34 @@ public class PackedCriteria {
         }
     }
 
+    /**
+     * Removes departure minutes from the packed criteria.
+     *
+     * @param criteria The packed criteria.
+     * @return The criteria without departure minutes.
+     */
     public static long withoutDepMins(long criteria) {
         return criteria & ((1L << PAY_BITS + CHANGE_BITS + ARR_BITS) - 1);
     }
 
+    /**
+     * Adds departure minutes to the packed criteria.
+     *
+     * @param criteria The packed criteria.
+     * @param depMins1 The departure minutes to add.
+     * @return The updated packed criteria.
+     */
     public static long withDepMins(long criteria, int depMins1) {
         return withoutDepMins(criteria) | ((long) depMins1 << 51);
     }
 
-    // unpacks and repackages everything after adding a 1 to the changes value
+    /**
+     * Increments the number of changes in the packed criteria by one.
+     * By unpacking and repackaging everything after adding a 1 to the changes value.
+     *
+     * @param criteria The packed criteria.
+     * @return The updated packed criteria with one more change.
+     */
     public static long withAdditionalChange(long criteria) {
         int a = arrMins(criteria);
         int b = changes(criteria) + 1;
@@ -95,6 +168,13 @@ public class PackedCriteria {
         }
     }
 
+    /**
+     * Updates the payload of the packed criteria with the in payload1.
+     *
+     * @param criteria The packed criteria.
+     * @param payload1 The new payload value.
+     * @return The updated packed criteria with the new payload.
+     */
     public static long withPayload(long criteria, int payload1) {
         return (criteria & -1L << 32) | Integer.toUnsignedLong(payload1);
     }
