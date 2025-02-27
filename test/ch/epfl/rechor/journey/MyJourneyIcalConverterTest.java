@@ -1,6 +1,7 @@
 // File: MyJourneyIcalConverterTest.java
 package ch.epfl.rechor.journey;
 
+import static ch.epfl.rechor.journey.JourneyIcalConverter.toIcalendar;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ch.epfl.rechor.FormatterFr;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ch.epfl.rechor.IcalBuilder;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -196,6 +199,9 @@ public class MyJourneyIcalConverterTest {
         LocalDateTime depTime = LocalDateTime.of(2025, Month.MAY, 1, 8, 0, 0);
         LocalDateTime arrTime = LocalDateTime.of(2025, Month.MAY, 1, 8, 30, 0);
         Journey journey = new Journey(List.of(transportLeg));
+
+        //testing out print
+        System.out.println(toIcalendar(journey));
 
         String icalContent = getIcalContent(journey);
 
