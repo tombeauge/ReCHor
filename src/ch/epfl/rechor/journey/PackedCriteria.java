@@ -3,6 +3,8 @@ package ch.epfl.rechor.journey;
 /**
  * Utility class for packing and unpacking criteria values into a single long value.
  * This class encodes arrival minutes, number of changes, and a payload into a compact format.
+ *
+ * @author Cem Celik (399448)
  */
 public class PackedCriteria {
 
@@ -107,13 +109,13 @@ public class PackedCriteria {
 
     /**
      * Determines if one criteria dominates or is equal to another.
-     *
+     * Dominates means arrival time and number of changes is less and departure
+     * time is more for criteria 1 compared to criteria 2.
      * @param criteria1 The first criteria.
      * @param criteria2 The second criteria.
      * @return True if criteria1 dominates or is equal to criteria2, false otherwise.
      * @throws IllegalArgumentException if one criteria has departure time and the other does not.
      */
-    //assuming that dominates means arrival time and n. of changes is less and dep. time is more for criteria 1 compared to criteria 2
     public static boolean dominatesOrIsEqual(long criteria1, long criteria2) {
         boolean hasDep1 = hasDepMins(criteria1);
         boolean hasDep2 = hasDepMins(criteria2);
@@ -129,7 +131,7 @@ public class PackedCriteria {
     }
 
     /**
-     * Removes departure minutes from the packed criteria.
+     * Removes departure time from the packed criteria.
      *
      * @param criteria The packed criteria.
      * @return The criteria without departure minutes.
