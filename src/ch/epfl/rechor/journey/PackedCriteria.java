@@ -8,7 +8,7 @@ public class PackedCriteria {
 
     private static final int MIN_ARRIVAL_MINS = -240;
     private static final int MAX_ARRIVAL_MINS = 2880;
-    private static final int CHANGE_BITS = 7; // bits for changes(7)
+    private static final int CHANGE_BITS = 7;
     private static final int MAX_CHANGES = (1 << (CHANGE_BITS)) - 1; // 127
     private static final int ARR_BITS = 12;
     private static final int MAX_ARRBITS = (1 << ARR_BITS) - 1;
@@ -24,10 +24,11 @@ public class PackedCriteria {
             throw new IllegalArgumentException("Changes is not within bound: " + changes);
         }
 
+
         long am = (long) (arrMins - MIN_ARRIVAL_MINS) << 39;
         long ch = (long) changes << 32;
         long pl = payload;
-        return am & ch & pl;
+        return am | ch | pl;
     }
 
     public static boolean hasDepMins(long criteria) {
@@ -47,7 +48,7 @@ public class PackedCriteria {
     }
 
     public static int arrMins(long criteria) {
-        return (int) ((criteria >>> 39)+ MIN_ARRIVAL_MINS) & (MAX_ARRBITS);
+        return (int) ((criteria >>> 39) + MIN_ARRIVAL_MINS) & (MAX_ARRBITS);
     }
 
     public static int changes(long criteria) {
@@ -65,7 +66,7 @@ public class PackedCriteria {
         if (hasDep1 != hasDep2) {
             throw new IllegalArgumentException("One criteria has departure time, but the other does not");
         }
-        if (hasDep1 = true) {
+        if (hasDep1) {
             return (arrMins(criteria1) <= arrMins(criteria2)) && (changes(criteria1) <= changes(criteria2) && (depMins(criteria1) >= depMins(criteria2)));
         }
         else {
@@ -95,7 +96,7 @@ public class PackedCriteria {
     }
 
     public static long withPayload(long criteria, int payload1) {
-        return (criteria >>> PAY_BITS) << PAY_BITS + payload1;
+        return (criteria & -1L << 32) | Integer.toUnsignedLong(payload1);
     }
 
 }
