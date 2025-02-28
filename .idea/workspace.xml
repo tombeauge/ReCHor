@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="fixed \n before a preventive submission">
+    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="fixed icalbuilder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/IcalBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/IcalBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/JourneyIcalConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/JourneyIcalConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/MyJourneyIcalConverterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/MyJourneyIcalConverterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="8582" />
+    <option name="totalTimeSeconds" value="7625" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -58,7 +56,6 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Submit.executor": "Run",
     "JUnit.All in ReCHor.executor": "Run",
     "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput.executor": "Run",
     "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor": "Run",
@@ -164,7 +161,7 @@
       <workItem from="1739963547114" duration="1214000" />
       <workItem from="1740004296488" duration="14034000" />
       <workItem from="1740333848428" duration="36809000" />
-      <workItem from="1740749311846" duration="9199000" />
+      <workItem from="1740749311846" duration="8251000" />
     </task>
     <task id="LOCAL-00001" summary="journey">
       <option name="closed" value="true" />
@@ -334,23 +331,7 @@
       <option name="project" value="LOCAL" />
       <updated>1740757334293</updated>
     </task>
-    <task id="LOCAL-00022" summary="fixed description issue">
-      <option name="closed" value="true" />
-      <created>1740757656533</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1740757656533</updated>
-    </task>
-    <task id="LOCAL-00023" summary="fixed \n before a preventive submission">
-      <option name="closed" value="true" />
-      <created>1740757848608</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1740757848608</updated>
-    </task>
-    <option name="localTasksCounter" value="24" />
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -378,8 +359,6 @@
     <MESSAGE value="added own step 2 token" />
     <MESSAGE value="-changed CLRF in IcalBuilder to &quot;\n &quot;&#10;-added stop names and times to Icalconverter description&#10;-!!TODO!! changed \n to /n to better visualise the linebreaks WHICH DO NEED FIXING" />
     <MESSAGE value="fixed icalbuilder" />
-    <MESSAGE value="fixed description issue" />
-    <MESSAGE value="fixed \n before a preventive submission" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed \n before a preventive submission" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed icalbuilder" />
   </component>
 </project>
