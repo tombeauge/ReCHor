@@ -4,6 +4,7 @@ package ch.epfl.rechor;
  * A utility class for packing and unpacking integer ranges into a compact format.
  * The range is stored in a single integer, where the lower 24 bits represent the
  * start of the range, and the last 8 bits represent the length of the range.
+ * @author Tom BEAUGE
  */
 public class PackedRange {
 
@@ -20,6 +21,10 @@ public class PackedRange {
      *                                  or if the start value exceeds 24 bits.
      */
     public static int pack(int startInclusive, int endExclusive) {
+
+        // checks for correct interval
+        Preconditions.checkArgument(endExclusive >= startInclusive);
+
         int length = (endExclusive - startInclusive) & 0x000000FF; // Bitmask to only consider last 8 bits
 
         if (length != endExclusive - startInclusive) {

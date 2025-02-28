@@ -61,9 +61,10 @@ public final class IcalBuilder {
 
         while (nChar < textLength) {
             if (nChar > 0 && (nChar % MAX_LINE_LENGTH == 0)) {
-                text.insert(nChar, CRLF + " ");
-                textLength += CRLF.length() + 1; // Count both CRLF and space
+                text.insert(nChar, "\n ");
+                //whitespace is included in the nCharr++ that happens on every iteration
             }
+
             nChar++;
         }
 

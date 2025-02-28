@@ -75,9 +75,7 @@ public class MyPackedRangeTest {
     public void testNegativeLengthThrows() {
         int start = 20;
         int end = 10;
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            PackedRange.pack(start, end);
-        });
-        assertTrue(exception.getMessage().contains("The duration of the event does not fit in 8 bits"));
+        assertThrows(IllegalArgumentException.class, () -> PackedRange.pack(start, end));
     }
+
 }
