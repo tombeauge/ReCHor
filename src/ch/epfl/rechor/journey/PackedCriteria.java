@@ -157,15 +157,16 @@ public class PackedCriteria {
      *
      * @param criteria The packed criteria.
      * @return The updated packed criteria with one more change.
-     * @throws IllegalArgumentException if by adding one more change it surpasses the maximum amount
      */
     public static long withAdditionalChange(long criteria) {
         int a = arrMins(criteria);
         int b = changes(criteria) + 1;
         int c = payload(criteria);
+
         if (b > MAX_CHANGES) {
             throw new IllegalArgumentException("Too many changes: " + b);
         }
+
         if (hasDepMins(criteria)) {
             return withDepMins(pack(a,b,c), depMins(criteria));
         }
