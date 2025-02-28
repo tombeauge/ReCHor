@@ -98,6 +98,8 @@ public class MyJourneyIcalConverterTest {
 
         String icalContent = getIcalContent(journey);
 
+        System.out.println("actual output: \n" + icalContent);
+
         // Check VCALENDAR structure.
         assertContains("BEGIN:VCALENDAR", icalContent);
         assertContains("END:VCALENDAR", icalContent);
@@ -137,6 +139,8 @@ public class MyJourneyIcalConverterTest {
                 "DESCRIPTION should contain foot leg: " + expectedFootLeg);
         assertTrue(logicalDescription.contains(expectedTransportLeg),
                 "DESCRIPTION should contain transport leg: " + expectedTransportLeg);
+
+
     }
 
     /**
@@ -247,4 +251,5 @@ public class MyJourneyIcalConverterTest {
                         !dtstamp.isAfter(nowAfter.plusMinutes(2)),
                 "DTSTAMP must be close to the current time");
     }
+
 }

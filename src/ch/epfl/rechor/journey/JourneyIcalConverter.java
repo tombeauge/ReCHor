@@ -3,6 +3,7 @@ package ch.epfl.rechor.journey;
 import ch.epfl.rechor.FormatterFr;
 import ch.epfl.rechor.IcalBuilder;
 
+import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -31,10 +32,22 @@ public class JourneyIcalConverter {
 
         IcalBuilder builder = new IcalBuilder();
 
-        StringJoiner descriptionJoiner = new StringJoiner("\n "); // Line break in iCalendar format (CRLF)
+        StringJoiner descriptionJoiner = new StringJoiner("/n "); // Line break in iCalendar format (CRLF)
 
         //Loop that formats the description to let it know if a leg of the journey is on foot or by public transport
         for (Journey.Leg leg : journey.legs()) {
+
+            descriptionJoiner.add(
+                    FormatterFr.formatTime(leg.depTime())
+                    + " "
+                    + FormatterFr.formatPlatformName(leg.depStop())
+                    + " → "
+                    + FormatterFr.formatPlatformName(leg.arrStop())
+                    + " ("
+                    + FormatterFr.formatTime(leg.arrTime())
+                    + ")"
+            );
+
             switch (leg) {
                 case Journey.Leg.Foot f -> descriptionJoiner.add(FormatterFr.formatLeg(f));
                 case Journey.Leg.Transport t -> descriptionJoiner.add(FormatterFr.formatLeg(t));
@@ -51,7 +64,7 @@ public class JourneyIcalConverter {
         builder.add(IcalBuilder.Name.DTSTART, journey.depTime());
         builder.add(IcalBuilder.Name.DTEND, journey.arrTime());
         builder.add(IcalBuilder.Name.SUMMARY, journey.depStop().name() + " → " + journey.arrStop().name());
-        builder.add(IcalBuilder.Name.DESCRIPTION, description);
+        builder.add(IcalBuilder.Name.DESCRIPTION, description); //TODO missing departure time and location
         builder.end();
         builder.end();
 
