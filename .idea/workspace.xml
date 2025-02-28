@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="fixed \n before a preventive submission">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/IcalBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/IcalBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/JourneyIcalConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/JourneyIcalConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/MyJourneyIcalConverterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/MyJourneyIcalConverterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +57,7 @@
   "keyToString": {
     "Application.Submit.executor": "Run",
     "JUnit.All in ReCHor.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.executor": "Run",
     "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput.executor": "Run",
     "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor": "Run",
     "JUnit.MyPackedRangeTest.testNegativeLengthThrows.executor": "Run",
@@ -76,7 +74,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput">
+  <component name="RunManager">
     <configuration name="All in ReCHor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ReCHor" />
       <option name="PACKAGE_NAME" value="" />
