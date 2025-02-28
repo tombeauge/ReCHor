@@ -36,7 +36,6 @@ public class JourneyIcalConverter {
 
         //Loop that formats the description to let it know if a leg of the journey is on foot or by public transport
         for (Journey.Leg leg : journey.legs()) {
-
             switch (leg) {
                 case Journey.Leg.Foot f -> descriptionJoiner.add(FormatterFr.formatLeg(f));
                 case Journey.Leg.Transport t -> descriptionJoiner.add(FormatterFr.formatLeg(t));

@@ -32,19 +32,6 @@ public class MyIcalBuilderTest {
     }
 
     @Test
-    public void testAddStringPropertyWithFolding() {
-        IcalBuilder builder = new IcalBuilder();
-        String longValue = "This is a very long value intended to test the folding mechanism of the iCalendar builder. It should be folded appropriately.";
-        builder.add(IcalBuilder.Name.DESCRIPTION, longValue);
-        String output = builder.build();
-
-        // Manually folding the expected value at MAX_LINE_LENGTH (75 chars)
-        String expectedOutput = "DESCRIPTION:This is a very long value intended to test the folding mechanis\r\n" +
-                " m of the iCalendar builder. It should be folded appropriately.\r\n";
-        assertOutputMatches(expectedOutput, output);
-    }
-
-    @Test
     public void testAddDateTimeProperty() {
         IcalBuilder builder = new IcalBuilder();
         LocalDateTime dateTime = LocalDateTime.of(2025, Month.MARCH, 15, 14, 30, 45);

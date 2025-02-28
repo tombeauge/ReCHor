@@ -70,7 +70,7 @@ public final class IcalBuilder {
             while (nChar < line.length()) {
                 if (nChar > 0 && (nChar % currentLimit == 0)) {
                     formattedText.append("\n ");
-                    currentLimit--;
+                    currentLimit = MAX_LINE_LENGTH - 1;
                 }
                 formattedText.append(line.charAt(nChar));
                 nChar++;
