@@ -61,6 +61,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "JUnit.All in ReCHor.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.executor": "Run",
     "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor": "Run",
     "JUnit.MyPackedRangeTest.testNegativeLengthThrows.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -76,7 +77,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs">
+  <component name="RunManager">
     <configuration name="All in ReCHor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ReCHor" />
       <option name="PACKAGE_NAME" value="" />
@@ -128,8 +129,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
       </set>
     </attachedChunks>
   </component>
@@ -148,6 +149,7 @@
       <workItem from="1740004296488" duration="14034000" />
       <workItem from="1740333848428" duration="36809000" />
       <workItem from="1740749311846" duration="5612000" />
+      <workItem from="1740756625174" duration="139000" />
     </task>
     <task id="LOCAL-00001" summary="journey">
       <option name="closed" value="true" />
