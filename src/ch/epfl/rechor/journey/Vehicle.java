@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Enumeration of types of vehicles
- *
+ * @author Cem Celik (399448)
  */
 public enum Vehicle {
     TRAM,

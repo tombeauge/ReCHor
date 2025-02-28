@@ -9,6 +9,7 @@ import java.util.UUID;
 
 /**
  * Class used to convert journeys into Strings using the Icalender format
+ * @author Cem Celik (399448)
  */
 public class JourneyIcalConverter {
 

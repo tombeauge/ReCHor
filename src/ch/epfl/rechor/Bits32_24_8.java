@@ -2,7 +2,7 @@ package ch.epfl.rechor;
 
 /**
  * public utility class for packaging and unpackaging bits of sizes 8, 24, 32.
- *
+ * @author Cem Celik (399448)
  */
 public class Bits32_24_8 {
 
