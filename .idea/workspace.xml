@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="added own step 2 token">
+    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="-changed CLRF in IcalBuilder to &quot;\n &quot;&#10;-added stop names and times to Icalconverter description&#10;-!!TODO!! changed \n to /n to better visualise the linebreaks WHICH DO NEED FIXING">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/IcalBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/IcalBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/PackedRange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/PackedRange.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/JourneyIcalConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/JourneyIcalConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ch/epfl/rechor/MyPackedRangeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/MyPackedRangeTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/MyJourneyIcalConverterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/MyJourneyIcalConverterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="5059" />
+    <option name="totalTimeSeconds" value="7020" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -61,7 +59,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "JUnit.All in ReCHor.executor": "Run",
-    "JUnit.MyJourneyIcalConverterTest.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput.executor": "Run",
     "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor": "Run",
     "JUnit.MyPackedRangeTest.testNegativeLengthThrows.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -77,11 +75,27 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.All in ReCHor">
     <configuration name="All in ReCHor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ReCHor" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ReCHor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.epfl.rechor.journey.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey" />
+      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.MyJourneyIcalConverterTest" />
+      <option name="METHOD_NAME" value="testToIcalendarWithExpectedOutput" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -120,8 +134,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs" />
         <item itemvalue="JUnit.All in ReCHor" />
+        <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput" />
+        <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs" />
         <item itemvalue="JUnit.MyPackedRangeTest.testNegativeLengthThrows" />
       </list>
     </recent_temporary>
@@ -129,8 +144,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
       </set>
     </attachedChunks>
   </component>
@@ -148,8 +163,7 @@
       <workItem from="1739963547114" duration="1214000" />
       <workItem from="1740004296488" duration="14034000" />
       <workItem from="1740333848428" duration="36809000" />
-      <workItem from="1740749311846" duration="5612000" />
-      <workItem from="1740756625174" duration="139000" />
+      <workItem from="1740749311846" duration="7652000" />
     </task>
     <task id="LOCAL-00001" summary="journey">
       <option name="closed" value="true" />
@@ -303,7 +317,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740691008745</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="-changed CLRF in IcalBuilder to &quot;\n &quot;&#10;-added stop names and times to Icalconverter description&#10;-!!TODO!! changed \n to /n to better visualise the linebreaks WHICH DO NEED FIXING">
+      <option name="closed" value="true" />
+      <created>1740755182035</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1740755182035</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -329,6 +351,7 @@
     <MESSAGE value="3.5 - All methods more or less complete however, certain illegal argument exceptions might have to be added and definitely needs testing" />
     <MESSAGE value="3.5 - just a comment" />
     <MESSAGE value="added own step 2 token" />
-    <option name="LAST_COMMIT_MESSAGE" value="added own step 2 token" />
+    <MESSAGE value="-changed CLRF in IcalBuilder to &quot;\n &quot;&#10;-added stop names and times to Icalconverter description&#10;-!!TODO!! changed \n to /n to better visualise the linebreaks WHICH DO NEED FIXING" />
+    <option name="LAST_COMMIT_MESSAGE" value="-changed CLRF in IcalBuilder to &quot;\n &quot;&#10;-added stop names and times to Icalconverter description&#10;-!!TODO!! changed \n to /n to better visualise the linebreaks WHICH DO NEED FIXING" />
   </component>
 </project>
