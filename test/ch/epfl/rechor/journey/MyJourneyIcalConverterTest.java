@@ -252,4 +252,64 @@ public class MyJourneyIcalConverterTest {
                 "DTSTAMP must be close to the current time");
     }
 
+    @Test
+    public void testToIcalendarWithExpectedOutput() throws Exception {
+        // Create stops.
+        Stop stopA = new Stop("Ecublens VD, EPFL", "", 6.5, 46.5);
+        Stop stopB = new Stop("Renens VD, gare", "", 6.6, 46.6);
+        Stop stopC = new Stop("Lausanne", "voie 5", 6.7, 46.7);
+        Stop stopD = new Stop("Romont FR", "voie 2", 6.8, 46.8);
+        Stop stopE = new Stop("Bulle", "voie 2", 6.9, 46.9);
+        Stop stopF = new Stop("Gruyères", "voie 2", 7.0, 47.0);
+
+        // Define times.
+        LocalDateTime depTime = LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 13, 0);
+        LocalDateTime arrTime = LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 57, 0);
+
+        // Create legs ensuring alternation.
+        Journey.Leg.Transport leg1 = new Journey.Leg.Transport(stopA, depTime, stopB, LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 19, 0), List.of(), Vehicle.BUS, "", "Renens VD, gare");
+        Journey.Leg.Foot leg2 = new Journey.Leg.Foot(stopB, LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 19, 0), stopB, LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 22, 0));
+        Journey.Leg.Transport leg3 = new Journey.Leg.Transport(stopB, LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 26, 0), stopC, LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 33, 0), List.of(), Vehicle.TRAIN, "voie 4", "Lausanne");
+        Journey.Leg.Foot leg4 = new Journey.Leg.Foot(stopC, LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 33, 0), stopC, LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 38, 0));
+        Journey.Leg.Transport leg5 = new Journey.Leg.Transport(stopC, LocalDateTime.of(2025, Month.FEBRUARY, 18, 16, 40, 0), stopD, LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 13, 0), List.of(), Vehicle.TRAIN, "voie 1", "Romont FR");
+        Journey.Leg.Foot leg6 = new Journey.Leg.Foot(stopD, LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 13, 0), stopD, LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 18, 0));
+        Journey.Leg.Transport leg7 = new Journey.Leg.Transport(stopD, LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 22, 0), stopE, LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 41, 0), List.of(), Vehicle.TRAIN, "voie 1", "Bulle");
+        Journey.Leg.Foot leg8 = new Journey.Leg.Foot(stopE, LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 41, 0), stopE, LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 46, 0));
+        Journey.Leg.Transport leg9 = new Journey.Leg.Transport(stopE, LocalDateTime.of(2025, Month.FEBRUARY, 18, 17, 50, 0), stopF, arrTime, List.of(), Vehicle.TRAIN, "voie 4", "Gruyères");
+
+        // Create journey.
+        Journey journey = new Journey(List.of(leg1, leg2, leg3, leg4, leg5, leg6, leg7, leg8, leg9));
+
+        String icalContent = getIcalContent(journey);
+
+        System.out.println("actual output: \n" + icalContent);
+
+        // Check VCALENDAR structure.
+        assertContains("BEGIN:VCALENDAR", icalContent);
+        assertContains("END:VCALENDAR", icalContent);
+        assertContains("VERSION:2.0", icalContent);
+        assertContains("PRODID:ReCHor", icalContent);
+
+        // Check VEVENT structure.
+        assertContains("BEGIN:VEVENT", icalContent);
+        assertContains("END:VEVENT", icalContent);
+
+        // Check UID and DTSTAMP properties are present.
+        assertContains("UID:", icalContent);
+        assertContains("DTSTAMP:", icalContent);
+
+        // Check DTSTART and DTEND.
+        String expectedDtstart = "20250218T161300";
+        String expectedDtend = "20250218T175700";
+        assertContains("DTSTART:" + expectedDtstart, icalContent);
+        assertContains("DTEND:" + expectedDtend, icalContent);
+
+        // SUMMARY should reflect the overall journey from stopA to stopF.
+        assertContains("SUMMARY:Ecublens VD, EPFL → Gruyères", icalContent);
+
+        // Validate DESCRIPTION includes foot transfers.
+        String logicalDescription = extractDescription(icalContent);
+        assertTrue(logicalDescription.contains("trajet à pied"), "DESCRIPTION should contain transfer foot legs.");
+    }
+
 }

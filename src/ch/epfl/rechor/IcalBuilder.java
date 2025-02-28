@@ -56,19 +56,33 @@ public final class IcalBuilder {
      */
     public IcalBuilder add(Name name, String value) {
         StringBuilder text = new StringBuilder(name + ":" + value);
-        int textLength = text.length();
-        int nChar = 0;
+        StringBuilder formattedText = new StringBuilder();
 
-        while (nChar < textLength) {
-            if (nChar > 0 && (nChar % MAX_LINE_LENGTH == 0)) {
-                text.insert(nChar, "\n ");
-                //whitespace is included in the nCharr++ that happens on every iteration
+        String[] lines = text.toString().split("\n");
+
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+
+            int nChar = 0;
+
+            while (nChar < line.length()) {
+                if (nChar > 0 && (nChar % MAX_LINE_LENGTH == 0)) {
+                    formattedText.append("\n ");
+                    //whitespace is included in the nCharr++ that happens on every iteration
+                }
+                formattedText.append(line.charAt(nChar));
+                nChar++;
             }
 
-            nChar++;
+            //only adds a new line if it's not the last line
+            if (i < lines.length - 1) {
+                formattedText.append("\n ");
+            }
         }
 
-        sb.append(text).append(CRLF);
+
+
+        sb.append(formattedText).append(CRLF);
         return this;
     }
 
