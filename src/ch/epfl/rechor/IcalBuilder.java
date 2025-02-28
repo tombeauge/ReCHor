@@ -65,10 +65,12 @@ public final class IcalBuilder {
 
             int nChar = 0;
 
+            int currentLimit = MAX_LINE_LENGTH;
+
             while (nChar < line.length()) {
-                if (nChar > 0 && (nChar % MAX_LINE_LENGTH == 0)) {
+                if (nChar > 0 && (nChar % currentLimit == 0)) {
                     formattedText.append("\n ");
-                    //whitespace is included in the nCharr++ that happens on every iteration
+                    currentLimit--;
                 }
                 formattedText.append(line.charAt(nChar));
                 nChar++;
@@ -76,7 +78,7 @@ public final class IcalBuilder {
 
             //only adds a new line if it's not the last line
             if (i < lines.length - 1) {
-                formattedText.append("\n ");
+                formattedText.append(CRLF);
             }
         }
 
