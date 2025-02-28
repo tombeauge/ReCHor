@@ -32,7 +32,7 @@ public class JourneyIcalConverter {
 
         IcalBuilder builder = new IcalBuilder();
 
-        StringJoiner descriptionJoiner = new StringJoiner("/n"); // the icalbuilder takes care of adding spaces when adding new line
+        StringJoiner descriptionJoiner = new StringJoiner("\n"); // the icalbuilder takes care of adding spaces when adding new line
 
         //Loop that formats the description to let it know if a leg of the journey is on foot or by public transport
         for (Journey.Leg leg : journey.legs()) {
