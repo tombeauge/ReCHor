@@ -1,7 +1,10 @@
 package ch.epfl.rechor.journey;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.LongConsumer;
+
+import static ch.epfl.rechor.PackedRange.pack;
 
 public final class ParetoFront {
 
@@ -17,12 +20,10 @@ public final class ParetoFront {
     }
 
     public long get(int arrMins, int changes){
-        for (long criteria : packedCriteria) {
-            if (PackedCriteria.arrMins(criteria) == arrMins && PackedCriteria.changes(criteria) == changes) {
-                return criteria; //there can be at most one such element
-            }
-        }
-        throw new NoSuchElementException("No criteria found for given arrival minutes and changes.");
+        long key = pack(arrMins, changes);
+        int index = Arrays.binarySearch(packedCriteria, key);
+        if (index < 0){ throw new NoSuchElementException("No criteria found for given arrival minutes and changes."); }
+        return packedCriteria[index];   //TODO implemented binary, if does not work revert to previous version
     }
 
     public void forEach(LongConsumer action){
