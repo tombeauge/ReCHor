@@ -9,7 +9,7 @@ package ch.epfl.rechor;
 public class PackedRange {
 
     /** Private constructor to prevent instantiation. */
-    private PackedRange() {}
+    private PackedRange() {throw new UnsupportedOperationException("This class cannot be instantiated");}
 
     /**
      * Packs a start-inclusive and end-exclusive range into a single integer.
