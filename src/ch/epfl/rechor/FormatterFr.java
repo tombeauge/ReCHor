@@ -11,6 +11,15 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.Objects;
 
+
+/**
+ * Provides formatting utilities for journey-related data.
+ * <p>
+ * This final class offers static methods to format durations, times, platform names,
+ * and journey legs (both for transport and walking segments)
+ *
+ * @author Tom BEAUGE
+ */
 public final class FormatterFr {
     private FormatterFr() {
     }

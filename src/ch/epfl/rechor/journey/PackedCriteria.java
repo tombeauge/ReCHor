@@ -6,8 +6,8 @@ package ch.epfl.rechor.journey;
  *
  * @author Cem Celik (399448)
  */
-public class PackedCriteria {
 
+public class PackedCriteria{
     /**
      * Private constructor with no parameters to prevent instantiation
      */
@@ -34,17 +34,20 @@ public class PackedCriteria {
      * @throws IllegalArgumentException if the input values are out of bounds.
      */
     public static long pack(int arrMins, int changes, int payload) {
+
+        System.out.println(MAX_CHANGES);
         if (arrMins < MIN_ARRIVAL_MINS || arrMins >= MAX_ARRIVAL_MINS) {
             throw new IllegalArgumentException("Invalid arrival minutes: " + arrMins);
         }
-        if (changes >= MAX_CHANGES || changes < 0) {
+        if (changes > MAX_CHANGES || changes < 0) {
             throw new IllegalArgumentException("Changes is not within bound: " + changes);
         }
 
 
         long am = (long) (arrMins - MIN_ARRIVAL_MINS) << 39;
         long ch = (long) changes << 32;
-        long pl = payload;
+        long pl = payload & 0x00_00_00_00_FF_FF_FF_FFL;
+
         return am | ch | pl;
     }
 

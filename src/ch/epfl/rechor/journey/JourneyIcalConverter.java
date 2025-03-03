@@ -36,7 +36,6 @@ public class JourneyIcalConverter {
 
         //Loop that formats the description to let it know if a leg of the journey is on foot or by public transport
         for (Journey.Leg leg : journey.legs()) {
-
             switch (leg) {
                 case Journey.Leg.Foot f -> descriptionJoiner.add(FormatterFr.formatLeg(f));
                 case Journey.Leg.Transport t -> descriptionJoiner.add(FormatterFr.formatLeg(t));
@@ -53,7 +52,7 @@ public class JourneyIcalConverter {
         builder.add(IcalBuilder.Name.DTSTART, journey.depTime());
         builder.add(IcalBuilder.Name.DTEND, journey.arrTime());
         builder.add(IcalBuilder.Name.SUMMARY, journey.depStop().name() + " → " + journey.arrStop().name());
-        builder.add(IcalBuilder.Name.DESCRIPTION, description); //TODO missing departure time and location
+        builder.add(IcalBuilder.Name.DESCRIPTION, description);
         builder.end();
         builder.end();
 
