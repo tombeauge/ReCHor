@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="fixed icalbuilder">
+    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="workspace">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ReCHor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ReCHor.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/IcalBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/IcalBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/JourneyIcalConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/JourneyIcalConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/PackedCriteria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/journey/PackedCriteria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/MyJourneyIcalConverterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/MyJourneyIcalConverterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,30 +55,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.All in ReCHor.executor": "Run",
-    "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput.executor": "Run",
-    "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor": "Run",
-    "JUnit.MyPackedRangeTest.testNegativeLengthThrows.executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.All in ReCHor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyIcalBuilderTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyJourneyIcalConverterTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MyPackedRangeTest.testNegativeLengthThrows.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="JUnit.All in ReCHor">
     <configuration name="All in ReCHor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ReCHor" />
       <option name="PACKAGE_NAME" value="" />
@@ -157,10 +159,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in ReCHor" />
-        <item itemvalue="Python tests.Python tests in test" />
-        <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput" />
         <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs" />
+        <item itemvalue="JUnit.All in ReCHor" />
+        <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput" />
         <item itemvalue="JUnit.MyPackedRangeTest.testNegativeLengthThrows" />
       </list>
     </recent_temporary>
@@ -168,8 +169,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
       </set>
     </attachedChunks>
   </component>
@@ -188,6 +189,9 @@
       <workItem from="1740004296488" duration="14034000" />
       <workItem from="1740333848428" duration="36809000" />
       <workItem from="1740749311846" duration="8251000" />
+      <workItem from="1740760602515" duration="1285000" />
+      <workItem from="1740761928368" duration="19000" />
+      <workItem from="1741001599213" duration="295000" />
     </task>
     <task id="LOCAL-00001" summary="journey">
       <option name="closed" value="true" />
