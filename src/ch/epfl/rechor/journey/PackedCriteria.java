@@ -35,7 +35,6 @@ public class PackedCriteria{
      */
     public static long pack(int arrMins, int changes, int payload) {
 
-        System.out.println(MAX_CHANGES);
         if (arrMins < MIN_ARRIVAL_MINS || arrMins >= MAX_ARRIVAL_MINS) {
             throw new IllegalArgumentException("Invalid arrival minutes: " + arrMins);
         }
@@ -72,11 +71,18 @@ public class PackedCriteria{
      * @throws IllegalArgumentException if departure minutes are not provided.
      */
     public static int depMins(long criteria) {
-        if (criteria >>> 51 != 0) {
-            return (int) (criteria >>> 51);
+        if(!hasDepMins(criteria)) {
+            throw new IllegalArgumentException("Departure mins not provided");
         }
+
+        if((criteria >>> 62) == 0) {
+            long depMins = (criteria >>> 51) & 0xFFFL; // 0b111111111111 = 0xFFF
+            return (int)depMins;
+        }
+
         else {
-            throw new IllegalArgumentException("Deperature mins not provided");
+            long depMins = (-criteria >>> 51) & 0xFFFL; // 0b111111111111 = 0xFFF
+            return (int)-depMins-1;
         }
     }
 
@@ -87,7 +93,8 @@ public class PackedCriteria{
      * @return The arrival minutes.
      */
     public static int arrMins(long criteria) {
-        return (int) ((criteria >>> 39) + MIN_ARRIVAL_MINS) & (MAX_ARRBITS);
+        return (int) ((criteria >>> 39) & MAX_ARRBITS) + (MIN_ARRIVAL_MINS);
+
     }
 
     /**
@@ -122,6 +129,7 @@ public class PackedCriteria{
     public static boolean dominatesOrIsEqual(long criteria1, long criteria2) {
         boolean hasDep1 = hasDepMins(criteria1);
         boolean hasDep2 = hasDepMins(criteria2);
+        System.out.println("hasDep1: " + hasDep1 + " hasDep2: " + hasDep2);
         if (hasDep1 != hasDep2) {
             throw new IllegalArgumentException("One criteria has departure time, but the other does not");
         }
@@ -152,6 +160,7 @@ public class PackedCriteria{
      */
     public static long withDepMins(long criteria, int depMins1) {
         return withoutDepMins(criteria) | ((long) depMins1 << 51);
+
     }
 
     /**
