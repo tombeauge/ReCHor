@@ -52,7 +52,7 @@ public class JourneyIcalConverter {
         builder.add(IcalBuilder.Name.DTSTART, journey.depTime());
         builder.add(IcalBuilder.Name.DTEND, journey.arrTime());
         builder.add(IcalBuilder.Name.SUMMARY, journey.depStop().name() + " → " + journey.arrStop().name());
-        builder.add(IcalBuilder.Name.DESCRIPTION, description); //TODO missing departure time and location
+        builder.add(IcalBuilder.Name.DESCRIPTION, description);
         builder.end();
         builder.end();
 

@@ -76,18 +76,12 @@ class IcalBuilderTest {
                 .build();
 
         for (var line : actual.split(CRLF)) {
-            System.out.printf("%d", line.length());
-            assertTrue(line.length() <= 75);
+            assertTrue(line.length() <= 75); //false for some reason
 
         }
 
         var unfoldedActual = actual.replaceAll(CRLF + " ", "");
-            assertEquals(expected.trim(), unfoldedActual.trim());
-
-
-
-        System.out.println("expected: " + expected.trim());
-        System.out.println("actual: " + unfoldedActual.trim());
+            assertEquals(expected.trim(), unfoldedActual.trim()); //returns false
     }
 
     @Test

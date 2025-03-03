@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * A builder class for creating iCalendar (.ics) files.
  * This class allows structured generation of iCalendar components
  * such as VCALENDAR and VEVENT with their respective attributes.
+ * @author Tom Beaugé
  */
 public final class IcalBuilder {
 
@@ -58,31 +59,19 @@ public final class IcalBuilder {
         StringBuilder text = new StringBuilder(name + ":" + value);
         StringBuilder formattedText = new StringBuilder();
 
-        String[] lines = text.toString().split("\n");
+        int nChar = 0;
+        int segmentLength = 0;
 
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-
-            int nChar = 0;
-
-            int currentLimit = MAX_LINE_LENGTH;
-
-            while (nChar < line.length()) {
-                if (nChar > 0 && (nChar % currentLimit == 0)) {
-                    formattedText.append("\n ");
-                    currentLimit = MAX_LINE_LENGTH - 1;
-                }
-                formattedText.append(line.charAt(nChar));
-                nChar++;
+        while (nChar < text.length()) {
+            if (segmentLength == MAX_LINE_LENGTH) {
+                formattedText.append(CRLF).append(" ");
+                segmentLength = 1;
             }
 
-            //only adds a new line if it's not the last line
-            if (i < lines.length - 1) {
-                formattedText.append(CRLF);
-            }
+            formattedText.append(text.charAt(nChar));
+            nChar++;
+            segmentLength++;
         }
-
-
 
         sb.append(formattedText).append(CRLF);
         return this;

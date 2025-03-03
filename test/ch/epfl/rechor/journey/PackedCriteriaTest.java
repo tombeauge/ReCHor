@@ -12,7 +12,6 @@ class PackedCriteriaTest {
     @Test
     void packedCriteriaPackWorksOnGivenExample() {
         var p = PackedCriteria.pack(9 * 60, 2, 0b1010_0101_1010_0101_1010_0101_1010_0101);
-        System.out.println(Long.toBinaryString(p));
         assertEquals(0b0_000000000000_001100001100_0000010_1010_0101_1010_0101_1010_0101_1010_0101L, p);
 
     }
