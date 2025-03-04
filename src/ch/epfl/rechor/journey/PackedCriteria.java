@@ -17,12 +17,20 @@ public class PackedCriteria{
 
     private static final int MIN_ARRIVAL_MINS = -240;
     private static final int MAX_ARRIVAL_MINS = 2880;
-    private static final int CHANGE_BITS = 7;
-    private static final int MAX_CHANGES = (1 << (CHANGE_BITS)) - 1; // 127
     private static final int ARR_BITS = 12;
     private static final int MAX_ARRBITS = (1 << ARR_BITS) - 1;
+
+    private static final int CHANGE_BITS = 7;
+    private static final int MAX_CHANGES = (1 << (CHANGE_BITS)) - 1; // 127
+
     private static final int PAY_BITS = 32;
-    private static final long MAX_PAYBITS = (1L << PAY_BITS) - 1;
+    private static final long MAX_PAYBITS = (1L << PAY_BITS) - 1;;
+
+    private static final int MIN_DEP_MINS = -240;
+    private static final int MAX_DEP_MINS = 2880;
+    private static final int DEP_RANGE = MAX_DEP_MINS - MIN_DEP_MINS; // 3120
+
+
 
     /**
      * Packs the given criteria values into a long.
@@ -43,9 +51,9 @@ public class PackedCriteria{
         }
 
 
-        long am = (long) (arrMins - MIN_ARRIVAL_MINS) << 39;
-        long ch = (long) changes << 32;
-        long pl = payload & 0x00_00_00_00_FF_FF_FF_FFL;
+        long am = ((long) (arrMins - MIN_ARRIVAL_MINS) & 0xFFF) << 39; //12-bit mask
+        long ch = ((long) changes & 0x7F) << 32; //7-bit mask
+        long pl = payload & 0xFFFFFFFFL; //32-bit mask
 
         return am | ch | pl;
     }
@@ -57,10 +65,7 @@ public class PackedCriteria{
      * @return True if departure minutes are present, false otherwise.
      */
     public static boolean hasDepMins(long criteria) {
-        if (criteria >>> 51 != 0) {
-            return true;
-        }
-        else return false;
+        return ((criteria >> 51) & 0xFFF) != 0;
     }
 
     /**
@@ -75,15 +80,8 @@ public class PackedCriteria{
             throw new IllegalArgumentException("Departure mins not provided");
         }
 
-        if((criteria >>> 62) == 0) {
-            long depMins = (criteria >>> 51) & 0xFFFL; // 0b111111111111 = 0xFFF
-            return (int)depMins;
-        }
-
-        else {
-            long depMins = (-criteria >>> 51) & 0xFFFL; // 0b111111111111 = 0xFFF
-            return (int)-depMins-1;
-        }
+        long storedDep = (criteria >> 51) & 0xFFF;
+        return (int) (MIN_DEP_MINS + (DEP_RANGE - storedDep));
     }
 
     /**
@@ -149,6 +147,7 @@ public class PackedCriteria{
      */
     public static long withoutDepMins(long criteria) {
         return criteria & ((1L << (PAY_BITS + CHANGE_BITS + ARR_BITS)) - 1);
+        //return criteria & ~(0b111111111111L << 51);
     }
 
     /**
@@ -159,9 +158,10 @@ public class PackedCriteria{
      * @return The updated packed criteria.
      */
     public static long withDepMins(long criteria, int depMins1) {
-        return withoutDepMins(criteria) | ((long) depMins1 << 51);
-
+        long reversedDep = (DEP_RANGE - (depMins1 - MIN_DEP_MINS)) & 0xFFF;
+        return withoutDepMins(criteria) | (reversedDep << 51);
     }
+
 
     /**
      * Increments the number of changes in the packed criteria by one.
