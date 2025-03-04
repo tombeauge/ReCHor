@@ -57,10 +57,16 @@ public class PackedCriteria{
      * @return True if departure minutes are present, false otherwise.
      */
     public static boolean hasDepMins(long criteria) {
-        if (criteria >>> 51 != 0) {
+        System.out.print(criteria >>> 51);
+        long a = criteria >>> 51;
+        if(((criteria >>> 51)) != 0) {
             return true;
         }
-        else return false;
+        else {
+            //System.out.println(criteria);
+            //System.out.println(criteria >>> 51);
+            return false;
+        }
     }
 
     /**
@@ -71,18 +77,13 @@ public class PackedCriteria{
      * @throws IllegalArgumentException if departure minutes are not provided.
      */
     public static int depMins(long criteria) {
-        if(!hasDepMins(criteria)) {
-            throw new IllegalArgumentException("Departure mins not provided");
+        if(hasDepMins(criteria)) {
+            int value = (int) (4095 - ((criteria >>> 51) & 0xFFF) - 240);
+            //System.out.println(value);
+            return value;
         }
-
-        if((criteria >>> 62) == 0) {
-            long depMins = (criteria >>> 51) & 0xFFFL; // 0b111111111111 = 0xFFF
-            return (int)depMins;
-        }
-
         else {
-            long depMins = (-criteria >>> 51) & 0xFFFL; // 0b111111111111 = 0xFFF
-            return (int)-depMins-1;
+            throw new IllegalArgumentException("Departure mins not provided");
         }
     }
 
@@ -159,7 +160,8 @@ public class PackedCriteria{
      * @return The updated packed criteria.
      */
     public static long withDepMins(long criteria, int depMins1) {
-        return withoutDepMins(criteria) | ((long) depMins1 << 51);
+        //changed this to + 240 but might be wrong
+        return withoutDepMins(criteria) | ((long) (depMins1 + 240) << 51);
 
     }
 
