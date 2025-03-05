@@ -153,15 +153,13 @@ public final class ParetoFront {
 
                 long currentForComp = PackedCriteria.withPayload(frontier[i], 0);
 
-                if (currentForComp > newTupleForComp) {
-                    System.out.println(currentForComp + " > " + newTupleForComp);
-                    break;
-                }
-
                 //if the new insertion is already dominated nothing happens
                 if (PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple)) {
-                    //System.out.println(frontier[i] + " dominates " + packedTuple);
                     return this;
+                }
+
+                if (currentForComp > newTupleForComp) {
+                    break;
                 }
 
                 i++;
@@ -175,13 +173,15 @@ public final class ParetoFront {
                 if (!inserted) {
                     frontier[i] = packedTuple; //if found a tuple which the new tuple dominates, it takes its spot
                     inserted = true;
+                    i--; //we do not need to remove this position
                 }
                 i++;
             }
 
-            if (i - insertionPoint > 0) {
-                System.arraycopy(frontier, i, frontier, insertionPoint, size - i);
-                size -= (i - insertionPoint);
+            int toRemove = i - insertionPoint;
+            if (toRemove > 0) {
+                System.arraycopy(frontier, insertionPoint, frontier, i, size - toRemove);
+                size -= toRemove;
             }
 
             if (!inserted) {
@@ -228,12 +228,14 @@ public final class ParetoFront {
          */
         public boolean fullyDominates(Builder that, int depMins) {
             for (int i = 0; i < that.size; i++) {
-                long forcedDep = PackedCriteria.withDepMins(frontier[i], depMins);
+                long forcedDepThat = PackedCriteria.withDepMins(that.frontier[i], depMins);
 
                 boolean dominated = false;
 
                 for (int j = 0; j < this.size; j++) {
-                    if (strictlyDominates(this.frontier[j], forcedDep)) {
+                    long forcedDepThis = PackedCriteria.withDepMins(this.frontier[j], depMins);
+
+                    if (strictlyDominates(forcedDepThis, forcedDepThat)) {
                         dominated = true;
                         break;
                     }
@@ -313,15 +315,19 @@ public final class ParetoFront {
          */
         private boolean strictlyDominates(long a, long b) {
 
-            if(PackedCriteria.hasDepMins(a) && PackedCriteria.hasDepMins(b)){
+            boolean hasDiffDepMins = false;
 
+            if(PackedCriteria.hasDepMins(a) && PackedCriteria.hasDepMins(b)){
+                if (PackedCriteria.depMins(a) != PackedCriteria.depMins(b)){
+                    hasDiffDepMins = true;
+                }
             }
 
             return PackedCriteria.dominatesOrIsEqual(a, b) &&
                     //ensuring we don't consider two tuples that are equal
-                    ((PackedCriteria.depMins(a) != PackedCriteria.depMins(b) ||
+                    (hasDiffDepMins ||
                             (PackedCriteria.arrMins(a) != PackedCriteria.arrMins(b)) ||
-                            PackedCriteria.changes(a) != PackedCriteria.changes(b)));
+                            PackedCriteria.changes(a) != PackedCriteria.changes(b));
 
         }
 
