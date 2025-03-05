@@ -46,12 +46,12 @@ public final class ParetoFront {
      * @throws NoSuchElementException if no matching criteria exist.
      */
     public long get(int arrMins, int changes) {
-        long key = pack(arrMins, changes);
-        int index = Arrays.binarySearch(packedCriteria, key);
-        if (index < 0) {
-            throw new NoSuchElementException("No criteria found for given arrival minutes and changes.");
+        for (long criteria : packedCriteria) {
+            if (PackedCriteria.arrMins(criteria) == arrMins && PackedCriteria.changes(criteria) == changes) {
+                return criteria; //there can be at most one such element
+            }
         }
-        return packedCriteria[index];   //TODO implemented binary, if does not work revert to previous version
+        throw new NoSuchElementException("No criteria found for given arrival minutes and changes.");
     }
 
     /**
@@ -154,11 +154,13 @@ public final class ParetoFront {
                 long currentForComp = PackedCriteria.withPayload(frontier[i], 0);
 
                 if (currentForComp > newTupleForComp) {
+                    System.out.println(currentForComp + " > " + newTupleForComp);
                     break;
                 }
 
                 //if the new insertion is already dominated nothing happens
                 if (PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple)) {
+                    //System.out.println(frontier[i] + " dominates " + packedTuple);
                     return this;
                 }
 
@@ -310,6 +312,11 @@ public final class ParetoFront {
          * @return true if tuple a strictly dominates tuple b, false otherwise.
          */
         private boolean strictlyDominates(long a, long b) {
+
+            if(PackedCriteria.hasDepMins(a) && PackedCriteria.hasDepMins(b)){
+
+            }
+
             return PackedCriteria.dominatesOrIsEqual(a, b) &&
                     //ensuring we don't consider two tuples that are equal
                     ((PackedCriteria.depMins(a) != PackedCriteria.depMins(b) ||
@@ -335,6 +342,7 @@ public final class ParetoFront {
             }
 
             System.arraycopy(frontier, pos, frontier, pos + 1, size - pos);
+            frontier[pos] = packedTuple;
 
             size++;
 

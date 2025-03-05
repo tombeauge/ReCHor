@@ -127,7 +127,6 @@ public class PackedCriteria{
     public static boolean dominatesOrIsEqual(long criteria1, long criteria2) {
         boolean hasDep1 = hasDepMins(criteria1);
         boolean hasDep2 = hasDepMins(criteria2);
-        System.out.println("hasDep1: " + hasDep1 + " hasDep2: " + hasDep2);
         if (hasDep1 != hasDep2) {
             throw new IllegalArgumentException("One criteria has departure time, but the other does not");
         }
