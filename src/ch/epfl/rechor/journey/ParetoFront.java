@@ -233,9 +233,9 @@ public final class ParetoFront {
                 boolean dominated = false;
 
                 for (int j = 0; j < this.size; j++) {
-                    long forcedDepThis = PackedCriteria.withDepMins(this.frontier[j], depMins);
 
-                    if (strictlyDominates(forcedDepThis, forcedDepThat)) {
+                    //this should always have depMins (otherwise exception is raised)
+                    if (strictlyDominates(this.frontier[j], forcedDepThat)) {
                         dominated = true;
                         break;
                     }
