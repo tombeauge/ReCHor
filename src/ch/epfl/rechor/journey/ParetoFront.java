@@ -173,16 +173,19 @@ public final class ParetoFront {
                     if (dst != src) {
                         frontier[dst] = frontier[src];
                     }
+                    if (!inserted){
+                        frontier[src] = newTupleForComp;
+                        inserted = true;
+                    }
                     dst++;
                 }
             }
 
 
-            // If no tuple from the region was kept, the new tuple should be inserted.
-            if (dst == insertionPoint) {
-                // Ensure there's room before inserting
+            //if we didnt insert the new tuple by replacing one that was dominated
+            //we insert it by moving the whole array to the right
+            if (!inserted) {
                 insert(packedTuple, insertionPoint);
-
             }
 
             return this;
