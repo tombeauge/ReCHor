@@ -166,26 +166,23 @@ public final class ParetoFront {
             }
 
             int insertionPoint = i;
+            int dst = insertionPoint;
 
-            //removing the entries after until they are not dominated
-            while (i < size && strictlyDominates(packedTuple, frontier[i])) {
-
-                if (!inserted) {
-                    frontier[i] = packedTuple; //if found a tuple which the new tuple dominates, it takes its spot
-                    inserted = true;
-                    i--; //we do not need to remove this position
+            for (int src = insertionPoint; src < size; src++) {
+                if (PackedCriteria.dominatesOrIsEqual(packedTuple, frontier[src])) {
+                    if (dst != src) {
+                        frontier[dst] = frontier[src];
+                    }
+                    dst++;
                 }
-                i++;
             }
 
-            int toRemove = i - insertionPoint;
-            if (toRemove > 0) {
-                System.arraycopy(frontier, insertionPoint, frontier, i, size - toRemove);
-                size -= toRemove;
-            }
 
-            if (!inserted) {
+            // If no tuple from the region was kept, the new tuple should be inserted.
+            if (dst == insertionPoint) {
+                // Ensure there's room before inserting
                 insert(packedTuple, insertionPoint);
+
             }
 
             return this;
@@ -235,7 +232,7 @@ public final class ParetoFront {
                 for (int j = 0; j < this.size; j++) {
 
                     //this should always have depMins (otherwise exception is raised)
-                    if (strictlyDominates(this.frontier[j], forcedDepThat)) {
+                    if (PackedCriteria.dominatesOrIsEqual(this.frontier[j], forcedDepThat)) {
                         dominated = true;
                         break;
                     }
@@ -312,6 +309,7 @@ public final class ParetoFront {
          * @param a the first packed tuple.
          * @param b the second packed tuple to compare against.
          * @return true if tuple a strictly dominates tuple b, false otherwise.
+         * TODO: put it packed criteria if keeping method
          */
         private boolean strictlyDominates(long a, long b) {
 
@@ -347,11 +345,11 @@ public final class ParetoFront {
                 frontier = Arrays.copyOf(frontier, capacity);
             }
 
+
             System.arraycopy(frontier, pos, frontier, pos + 1, size - pos);
             frontier[pos] = packedTuple;
 
             size++;
-
         }
     }
 }
