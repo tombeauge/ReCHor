@@ -46,12 +46,12 @@ public final class ParetoFront {
      * @throws NoSuchElementException if no matching criteria exist.
      */
     public long get(int arrMins, int changes) {
-        long key = pack(arrMins, changes);
-        int index = Arrays.binarySearch(packedCriteria, key);
-        if (index < 0) {
-            throw new NoSuchElementException("No criteria found for given arrival minutes and changes.");
+        for (long criteria : packedCriteria) {
+            if (PackedCriteria.arrMins(criteria) == arrMins && PackedCriteria.changes(criteria) == changes) {
+                return criteria; //there can be at most one such element
+            }
         }
-        return packedCriteria[index];   //TODO implemented binary, if does not work revert to previous version
+        throw new NoSuchElementException("No criteria found for given arrival minutes and changes.");
     }
 
     /**
@@ -111,7 +111,9 @@ public final class ParetoFront {
          * @param that the builder to copy.
          */
         public Builder(Builder that) {
-            this.frontier = Arrays.copyOf(that.frontier, that.size);
+            this.capacity = that.capacity;
+            this.size = that.size;
+            this.frontier = Arrays.copyOf(that.frontier, that.capacity);
         }
 
         /**
@@ -143,40 +145,52 @@ public final class ParetoFront {
             int i = 0;
             boolean inserted = false;
 
+            //setting the payload of the new tuple to 0 for comparisons
+            long newTupleForComp = PackedCriteria.withPayload(packedTuple, 0);
+
             //removing the payload for comparison so it does not affect result
-            while (i < size && packedTuple > PackedCriteria.withPayload(frontier[i], 0)) {
+            while (i < size) {
+
+                long currentForComp = PackedCriteria.withPayload(frontier[i], 0);
 
                 //if the new insertion is already dominated nothing happens
                 if (PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple)) {
                     return this;
                 }
 
-                i++;
-            }
-
-            //removing the entries after until they are not dominated
-            i++;
-            int insertionPoint = i;
-
-            while (i < size && strictlyDominates(packedTuple, frontier[i])) {
-
-                if (!inserted) {
-                    frontier[i] = packedTuple; //if found a tuple which the new tuple dominates, it takes its spot
-                    inserted = true;
+                if (currentForComp > newTupleForComp) {
+                    break;
                 }
+
                 i++;
             }
 
-            if (i - insertionPoint > 0) {
-                System.arraycopy(frontier, i + 1, frontier, insertionPoint + 1, i - insertionPoint);
+            int insertionPoint = i;
+            int dst = insertionPoint;
+
+            for (int src = insertionPoint; src < size; src++) {
+                if (PackedCriteria.dominatesOrIsEqual(packedTuple, frontier[src])) {
+                    if (dst != src) {
+                        frontier[dst] = frontier[src];
+                    }
+                    if (!inserted){
+                        frontier[src] = newTupleForComp;
+                        inserted = true;
+                    }
+                    dst++;
+                }
             }
 
+
+            //if we didnt insert the new tuple by replacing one that was dominated
+            //we insert it by moving the whole array to the right
             if (!inserted) {
-                insert(packedTuple, insertionPoint - 1);
+                insert(packedTuple, insertionPoint);
             }
 
             return this;
         }
+
 
         /**
          * Adds a tuple to the frontier with the given arrival time, number of changes, and payload.
@@ -214,13 +228,16 @@ public final class ParetoFront {
          */
         public boolean fullyDominates(Builder that, int depMins) {
             for (int i = 0; i < that.size; i++) {
-                long forcedDep = PackedCriteria.depMins(frontier[i]);
+                long forcedDepThat = PackedCriteria.withDepMins(that.frontier[i], depMins);
 
                 boolean dominated = false;
 
                 for (int j = 0; j < this.size; j++) {
-                    if (strictlyDominates(frontier[j], forcedDep)) {
+
+                    //this should always have depMins (otherwise exception is raised)
+                    if (PackedCriteria.dominatesOrIsEqual(this.frontier[j], forcedDepThat)) {
                         dominated = true;
+                        break;
                     }
                 }
 
@@ -251,7 +268,7 @@ public final class ParetoFront {
          * @return the constructed ParetoFront instance.
          */
         public ParetoFront build() {
-            long[] newFrontier = new long[capacity];
+            long[] newFrontier = new long[size];
             System.arraycopy(frontier, 0, newFrontier, 0, size);
             return new ParetoFront(newFrontier);
         }
@@ -295,13 +312,23 @@ public final class ParetoFront {
          * @param a the first packed tuple.
          * @param b the second packed tuple to compare against.
          * @return true if tuple a strictly dominates tuple b, false otherwise.
+         * TODO: put it packed criteria if keeping method
          */
         private boolean strictlyDominates(long a, long b) {
+
+            boolean hasDiffDepMins = false;
+
+            if(PackedCriteria.hasDepMins(a) && PackedCriteria.hasDepMins(b)){
+                if (PackedCriteria.depMins(a) != PackedCriteria.depMins(b)){
+                    hasDiffDepMins = true;
+                }
+            }
+
             return PackedCriteria.dominatesOrIsEqual(a, b) &&
                     //ensuring we don't consider two tuples that are equal
-                    ((PackedCriteria.depMins(a) != PackedCriteria.depMins(b) ||
+                    (hasDiffDepMins ||
                             (PackedCriteria.arrMins(a) != PackedCriteria.arrMins(b)) ||
-                            PackedCriteria.changes(a) != PackedCriteria.changes(b)));
+                            PackedCriteria.changes(a) != PackedCriteria.changes(b));
 
         }
 
@@ -321,10 +348,11 @@ public final class ParetoFront {
                 frontier = Arrays.copyOf(frontier, capacity);
             }
 
+
             System.arraycopy(frontier, pos, frontier, pos + 1, size - pos);
+            frontier[pos] = packedTuple;
 
             size++;
-
         }
     }
 }

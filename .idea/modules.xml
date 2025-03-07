@@ -5,4 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/ReCHor.iml" filepath="$PROJECT_DIR$/ReCHor.iml" />
     </modules>
   </component>
+  <component name="NewModuleRootManager">
+    <orderEntry type="jdk" jdkName="21" jdkType="JavaSDK" />
+  </component>
 </project>
