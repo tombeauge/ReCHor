@@ -4,8 +4,8 @@ package ch.epfl.rechor.timetable.mapped;
 
 public class Structure {
 
-    int totalsize = 0;
-    int[] fieldBytePos;
+    private int totalsize = 0;
+    private int[] fieldBytePos;
 
 
     public Structure(Field... fields) {
