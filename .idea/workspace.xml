@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="SigChecks done">
+      <change afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/mapped/MyBufferedStationsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/mapped/MyStructureTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/timetable/mapped/Structure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/timetable/mapped/Structure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/IcalBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/IcalBuilderTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DarkyenusTimeTracker">
+    <option name="totalTimeSeconds" value="8165" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;ccelik&quot;,
+      &quot;fullname&quot;: &quot;Cem Celik&quot;
+    }
+  }
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://gitlab.epfl.ch/tbeauge/rechor.git&quot;,
+    &quot;second&quot;: &quot;4b6baf4c-5b6c-4e4b-b557-2121e97b352c&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2tDN4hSzxvApK3gFWmA0c0aQ1Vv" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in ReCHor.executor": "Run",
+    "JUnit.MyBufferedStationsTest.executor": "Run",
+    "JUnit.MyBufferedStationsTest.latTest.executor": "Run",
+    "JUnit.MyBufferedStationsTest.longTest.executor": "Run",
+    "JUnit.MyBufferedStationsTest.sizeTest.executor": "Run",
+    "JUnit.MyIcalBuilderTest.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor": "Run",
+    "JUnit.MyPackedRangeTest.testNegativeLengthThrows.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Cem",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="All in ReCHor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ReCHor" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyBufferedStationsTest.latTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ReCHor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.epfl.rechor.journey.mapped.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey.mapped" />
+      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.mapped.MyBufferedStationsTest" />
+      <option name="METHOD_NAME" value="latTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyBufferedStationsTest.longTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ReCHor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.epfl.rechor.journey.mapped.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey.mapped" />
+      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.mapped.MyBufferedStationsTest" />
+      <option name="METHOD_NAME" value="longTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyBufferedStationsTest.sizeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ReCHor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.epfl.rechor.journey.mapped.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey.mapped" />
+      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.mapped.MyBufferedStationsTest" />
+      <option name="METHOD_NAME" value="sizeTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ReCHor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.epfl.rechor.journey.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey" />
+      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.MyJourneyIcalConverterTest" />
+      <option name="METHOD_NAME" value="testToIcalendarWithMultipleLegs" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.MyBufferedStationsTest.longTest" />
+        <item itemvalue="JUnit.MyBufferedStationsTest.latTest" />
+        <item itemvalue="JUnit.MyBufferedStationsTest.sizeTest" />
+        <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs" />
+        <item itemvalue="JUnit.All in ReCHor" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="" />
+      <created>1739882495405</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1739882495405</updated>
+      <workItem from="1739882496643" duration="3653000" />
+      <workItem from="1739963115299" duration="393000" />
+      <workItem from="1739963522449" duration="12000" />
+      <workItem from="1739963547114" duration="1214000" />
+      <workItem from="1740004296488" duration="14034000" />
+      <workItem from="1740333848428" duration="36809000" />
+      <workItem from="1740749311846" duration="8251000" />
+      <workItem from="1740760602515" duration="1285000" />
+      <workItem from="1740761928368" duration="19000" />
+      <workItem from="1741001599213" duration="295000" />
+      <workItem from="1741347003443" duration="73000" />
+      <workItem from="1741347079359" duration="30035000" />
+    </task>
+    <task id="LOCAL-00001" summary="journey">
+      <option name="closed" value="true" />
+      <created>1739883754847</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739883754847</updated>
+    </task>
+    <task id="LOCAL-00002" summary="vehicle enum done">
+      <option name="closed" value="true" />
+      <created>1739885340998</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1739885340998</updated>
+    </task>
+    <task id="LOCAL-00003" summary="vehicle enum small correction">
+      <option name="closed" value="true" />
+      <created>1739885867017</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739885867017</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Some documentation (not finished yet)">
+      <option name="closed" value="true" />
+      <created>1739964763732</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739964763732</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Documentation for journey">
+      <option name="closed" value="true" />
+      <created>1740045071184</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1740045071184</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Documentation done">
+      <option name="closed" value="true" />
+      <created>1740046661568</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1740046661568</updated>
+    </task>
+    <task id="LOCAL-00007" summary="put my token">
+      <option name="closed" value="true" />
+      <created>1740087317204</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1740087317204</updated>
+    </task>
+    <task id="LOCAL-00008" summary="start to 3.1 week 2">
+      <option name="closed" value="true" />
+      <created>1740090374179</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1740090374179</updated>
+    </task>
+    <task id="LOCAL-00009" summary="merge">
+      <option name="closed" value="true" />
+      <created>1740334194764</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1740334194764</updated>
+    </task>
+    <task id="LOCAL-00010" summary="3.2 icalConverter almost done description left">
+      <option name="closed" value="true" />
+      <created>1740427260861</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1740427260861</updated>
+    </task>
+    <task id="LOCAL-00011" summary="3.2 icalConverter should be mostly good not tested though">
+      <option name="closed" value="true" />
+      <created>1740489189571</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1740489189571</updated>
+    </task>
+    <task id="LOCAL-00012" summary="3.3 integer packageing">
+      <option name="closed" value="true" />
+      <created>1740513367080</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1740513367080</updated>
+    </task>
+    <task id="LOCAL-00013" summary="making classes non instanciable">
+      <option name="closed" value="true" />
+      <created>1740514015824</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1740514015824</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Some work on 3.5 and small mistake corrections">
+      <option name="closed" value="true" />
+      <created>1740518944582</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1740518944582</updated>
+    </task>
+    <task id="LOCAL-00015" summary="3.5 - first two methods done">
+      <option name="closed" value="true" />
+      <created>1740521206277</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1740521206277</updated>
+    </task>
+    <task id="LOCAL-00016" summary="3.5 - some more methods in 3.5">
+      <option name="closed" value="true" />
+      <created>1740572676369</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1740572676369</updated>
+    </task>
+    <task id="LOCAL-00017" summary="3.5 - All methods more or less complete however, certain illegal argument exceptions might have to be added and definitely needs testing">
+      <option name="closed" value="true" />
+      <created>1740585973241</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1740585973241</updated>
+    </task>
+    <task id="LOCAL-00018" summary="3.5 - just a comment">
+      <option name="closed" value="true" />
+      <created>1740607276557</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1740607276557</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added own step 2 token">
+      <option name="closed" value="true" />
+      <created>1740691008745</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1740691008745</updated>
+    </task>
+    <task id="LOCAL-00020" summary="-changed CLRF in IcalBuilder to &quot;\n &quot;&#10;-added stop names and times to Icalconverter description&#10;-!!TODO!! changed \n to /n to better visualise the linebreaks WHICH DO NEED FIXING">
+      <option name="closed" value="true" />
+      <created>1740755182035</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1740755182035</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fixed icalbuilder">
+      <option name="closed" value="true" />
+      <created>1740757334293</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1740757334293</updated>
+    </task>
+    <task id="LOCAL-00022" summary="3.3 done">
+      <option name="closed" value="true" />
+      <created>1741476341846</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1741476341846</updated>
+    </task>
+    <task id="LOCAL-00023" summary="3.4 - 3.5">
+      <option name="closed" value="true" />
+      <created>1741518573508</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1741518573508</updated>
+    </task>
+    <task id="LOCAL-00024" summary="SigChecks done">
+      <option name="closed" value="true" />
+      <created>1741532880778</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1741532880778</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="GitHub.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="1b961ab1-7c1c-4e87-9d30-99cb174eda23" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1b961ab1-7c1c-4e87-9d30-99cb174eda23">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:C:/Users/tbeau/Desktop/epfl/BA1/prog/mini-projet-2/rechor/test" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="journey" />
+    <MESSAGE value="vehicle enum done" />
+    <MESSAGE value="vehicle enum small correction" />
+    <MESSAGE value="Some documentation (not finished yet)" />
+    <MESSAGE value="Documentation for journey" />
+    <MESSAGE value="Documentation done" />
+    <MESSAGE value="put my token" />
+    <MESSAGE value="start to 3.1 week 2" />
+    <MESSAGE value="merge" />
+    <MESSAGE value="3.2 icalConverter almost done description left" />
+    <MESSAGE value="3.2 icalConverter should be mostly good not tested though" />
+    <MESSAGE value="3.3 integer packageing" />
+    <MESSAGE value="making classes non instanciable" />
+    <MESSAGE value="Some work on 3.5 and small mistake corrections" />
+    <MESSAGE value="3.5 - first two methods done" />
+    <MESSAGE value="3.5 - some more methods in 3.5" />
+    <MESSAGE value="3.5 - All methods more or less complete however, certain illegal argument exceptions might have to be added and definitely needs testing" />
+    <MESSAGE value="3.5 - just a comment" />
+    <MESSAGE value="added own step 2 token" />
+    <MESSAGE value="-changed CLRF in IcalBuilder to &quot;\n &quot;&#10;-added stop names and times to Icalconverter description&#10;-!!TODO!! changed \n to /n to better visualise the linebreaks WHICH DO NEED FIXING" />
+    <MESSAGE value="fixed icalbuilder" />
+    <MESSAGE value="3.3 done" />
+    <MESSAGE value="3.4 - 3.5" />
+    <MESSAGE value="SigChecks done" />
+    <option name="LAST_COMMIT_MESSAGE" value="SigChecks done" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ch/epfl/rechor/timetable/mapped/Structure.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

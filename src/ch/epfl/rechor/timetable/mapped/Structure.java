@@ -4,8 +4,8 @@ package ch.epfl.rechor.timetable.mapped;
 
 public class Structure {
 
-    int totalsize = 0;
-    int[] fieldBytePos;
+    private int totalsize = 0;
+    private int[] fieldBytePos;
 
 
     public Structure(Field... fields) {
@@ -16,6 +16,7 @@ public class Structure {
             }
         }
         for (int i = 0; i < fields.length; i++) {
+            fieldBytePos[i] = totalsize;
             if (fields[i].type == FieldType.U8) {
                 totalsize = totalsize + 1;
             }
@@ -25,18 +26,16 @@ public class Structure {
             else if (fields[i].type == FieldType.S32) {
                 totalsize = totalsize + 4;
             }
-
-            fieldBytePos[i] = totalsize;
         }
 
     }
 
-    int totalsize() {
+    public int totalSize() {
         return totalsize;
     }
 
-    int offset(int fieldIndex, int elementIndex) {
-        return (elementIndex * this.totalsize()) + fieldBytePos[fieldIndex];
+    public int offset(int fieldIndex, int elementIndex) {
+        return (elementIndex * this.totalSize()) + fieldBytePos[fieldIndex];
     }
 
     public enum FieldType {
