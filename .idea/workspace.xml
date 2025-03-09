@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="workspace">
+    <list default="true" id="64067192-cd36-4d63-8135-83978e5ceb94" name="Changes" comment="SigChecks done">
+      <change afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/mapped/MyBufferedStationsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/mapped/MyStructureTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReCHor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ReCHor.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ch/epfl/rechor/timetable/mapped/Structure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/epfl/rechor/timetable/mapped/Structure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/IcalBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ch/epfl/rechor/journey/IcalBuilderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,36 +58,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.All in ReCHor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyIcalBuilderTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyJourneyIcalConverterTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyPackedRangeTest.testNegativeLengthThrows.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in ReCHor.executor": "Run",
+    "JUnit.MyBufferedStationsTest.executor": "Run",
+    "JUnit.MyBufferedStationsTest.latTest.executor": "Run",
+    "JUnit.MyBufferedStationsTest.longTest.executor": "Run",
+    "JUnit.MyBufferedStationsTest.sizeTest.executor": "Run",
+    "JUnit.MyIcalBuilderTest.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput.executor": "Run",
+    "JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs.executor": "Run",
+    "JUnit.MyPackedRangeTest.testNegativeLengthThrows.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Cem",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="JUnit.All in ReCHor">
+}]]></component>
+  <component name="RunManager">
     <configuration name="All in ReCHor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ReCHor" />
       <option name="PACKAGE_NAME" value="" />
@@ -93,17 +100,49 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MyBufferedStationsTest.latTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ReCHor" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ch.epfl.rechor.journey.*" />
+          <option name="PATTERN" value="ch.epfl.rechor.journey.mapped.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey" />
-      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.MyJourneyIcalConverterTest" />
-      <option name="METHOD_NAME" value="testToIcalendarWithExpectedOutput" />
+      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey.mapped" />
+      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.mapped.MyBufferedStationsTest" />
+      <option name="METHOD_NAME" value="latTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyBufferedStationsTest.longTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ReCHor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.epfl.rechor.journey.mapped.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey.mapped" />
+      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.mapped.MyBufferedStationsTest" />
+      <option name="METHOD_NAME" value="longTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyBufferedStationsTest.sizeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ReCHor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.epfl.rechor.journey.mapped.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ch.epfl.rechor.journey.mapped" />
+      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.journey.mapped.MyBufferedStationsTest" />
+      <option name="METHOD_NAME" value="sizeTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -125,44 +164,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MyPackedRangeTest.testNegativeLengthThrows" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ReCHor" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ch.epfl.rechor.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ch.epfl.rechor" />
-      <option name="MAIN_CLASS_NAME" value="ch.epfl.rechor.MyPackedRangeTest" />
-      <option name="METHOD_NAME" value="testNegativeLengthThrows" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Python tests in test" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="ReCHor" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/test&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MyBufferedStationsTest.longTest" />
+        <item itemvalue="JUnit.MyBufferedStationsTest.latTest" />
+        <item itemvalue="JUnit.MyBufferedStationsTest.sizeTest" />
         <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithMultipleLegs" />
         <item itemvalue="JUnit.All in ReCHor" />
-        <item itemvalue="JUnit.MyJourneyIcalConverterTest.testToIcalendarWithExpectedOutput" />
-        <item itemvalue="JUnit.MyPackedRangeTest.testNegativeLengthThrows" />
       </list>
     </recent_temporary>
   </component>
@@ -192,6 +200,8 @@
       <workItem from="1740760602515" duration="1285000" />
       <workItem from="1740761928368" duration="19000" />
       <workItem from="1741001599213" duration="295000" />
+      <workItem from="1741347003443" duration="73000" />
+      <workItem from="1741347079359" duration="30035000" />
     </task>
     <task id="LOCAL-00001" summary="journey">
       <option name="closed" value="true" />
@@ -361,7 +371,31 @@
       <option name="project" value="LOCAL" />
       <updated>1740757334293</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="3.3 done">
+      <option name="closed" value="true" />
+      <created>1741476341846</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1741476341846</updated>
+    </task>
+    <task id="LOCAL-00023" summary="3.4 - 3.5">
+      <option name="closed" value="true" />
+      <created>1741518573508</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1741518573508</updated>
+    </task>
+    <task id="LOCAL-00024" summary="SigChecks done">
+      <option name="closed" value="true" />
+      <created>1741532880778</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1741532880778</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -411,6 +445,11 @@
             </State>
           </value>
         </entry>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
       </map>
     </option>
   </component>
@@ -436,6 +475,20 @@
     <MESSAGE value="added own step 2 token" />
     <MESSAGE value="-changed CLRF in IcalBuilder to &quot;\n &quot;&#10;-added stop names and times to Icalconverter description&#10;-!!TODO!! changed \n to /n to better visualise the linebreaks WHICH DO NEED FIXING" />
     <MESSAGE value="fixed icalbuilder" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed icalbuilder" />
+    <MESSAGE value="3.3 done" />
+    <MESSAGE value="3.4 - 3.5" />
+    <MESSAGE value="SigChecks done" />
+    <option name="LAST_COMMIT_MESSAGE" value="SigChecks done" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ch/epfl/rechor/timetable/mapped/Structure.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

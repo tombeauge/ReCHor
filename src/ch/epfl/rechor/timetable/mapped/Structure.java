@@ -16,6 +16,7 @@ public class Structure {
             }
         }
         for (int i = 0; i < fields.length; i++) {
+            fieldBytePos[i] = totalsize;
             if (fields[i].type == FieldType.U8) {
                 totalsize = totalsize + 1;
             }
@@ -25,8 +26,6 @@ public class Structure {
             else if (fields[i].type == FieldType.S32) {
                 totalsize = totalsize + 4;
             }
-
-            fieldBytePos[i] = totalsize;
         }
 
     }
