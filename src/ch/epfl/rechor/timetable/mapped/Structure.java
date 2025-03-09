@@ -31,12 +31,12 @@ public class Structure {
 
     }
 
-    int totalsize() {
+    public int totalSize() {
         return totalsize;
     }
 
-    int offset(int fieldIndex, int elementIndex) {
-        return (elementIndex * this.totalsize()) + fieldBytePos[fieldIndex];
+    public int offset(int fieldIndex, int elementIndex) {
+        return (elementIndex * this.totalSize()) + fieldBytePos[fieldIndex];
     }
 
     public enum FieldType {

@@ -7,9 +7,9 @@ public class StructuredBuffer {
     ByteBuffer buffer;
     Structure structure;
 
-    StructuredBuffer(Structure structure, ByteBuffer buffer) {
-         if (buffer.capacity() % structure.totalsize() != 0) {
-             throw new IllegalArgumentException("buffer size must be a multiple of structure size: " + structure.totalsize());
+    public StructuredBuffer(Structure structure, ByteBuffer buffer) {
+         if (buffer.capacity() % structure.totalSize() != 0) {
+             throw new IllegalArgumentException("buffer size must be a multiple of structure size: " + structure.totalSize());
          }
 
          this.buffer = buffer;
@@ -18,7 +18,7 @@ public class StructuredBuffer {
     }
 
     public int size() {
-        return buffer.capacity() / structure.totalsize();
+        return buffer.capacity() / structure.totalSize();
     }
 
     public int getU8(int fieldIndex, int elementIndex) {

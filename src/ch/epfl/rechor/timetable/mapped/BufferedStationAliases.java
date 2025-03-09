@@ -18,7 +18,7 @@ public final class BufferedStationAliases implements StationAliases {
 
 
 
-    BufferedStationAliases(List<String> stringTable, ByteBuffer buffer) {
+    public BufferedStationAliases(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
         this.buffer = buffer;
         stationAliasesStructure = new Structure(field(ALIAS_ID, Structure.FieldType.U16),
