@@ -65,6 +65,7 @@ public final class ParetoFront {
         }
     }
 
+
     /**
      * Returns a readable string representation of the Pareto frontier.
      *
@@ -154,7 +155,7 @@ public final class ParetoFront {
                 long currentForComp = PackedCriteria.withPayload(frontier[i], 0);
 
                 //if the new insertion is already dominated nothing happens
-                if (PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple)) {
+                if (PackedCriteria.dominatesOrIsEqual(currentForComp, newTupleForComp)) {
                     return this;
                 }
 
@@ -168,17 +169,29 @@ public final class ParetoFront {
             int insertionPoint = i;
             int dst = insertionPoint;
 
-            for (int src = insertionPoint; src < size; src++) {
-                if (PackedCriteria.dominatesOrIsEqual(packedTuple, frontier[src])) {
+            int n = size;
+            for (int src = insertionPoint; src < n; src++) {
+                if (PackedCriteria.dominatesOrIsEqual(newTupleForComp, PackedCriteria.withPayload(frontier[src], 0))) {
+                    System.out.println(frontier[src] + " is dominated");
+                    if (!inserted){
+                        //System.out.println("to remove through insertion: " + frontier[src]);
+                        frontier[src] = packedTuple;
+                        inserted = true;
+                        dst++;
+                    }
+                    else {
+                        size--;
+                        //System.out.println("to remove: " + frontier[src]);
+                    }
+                }
+                else {
                     if (dst != src) {
                         frontier[dst] = frontier[src];
                     }
-                    if (!inserted){
-                        frontier[src] = newTupleForComp;
-                        inserted = true;
-                    }
                     dst++;
                 }
+//                System.out.println("dst: " + dst + " vs src: " + src);
+//                System.out.println("size: "+ size);
             }
 
 
@@ -187,6 +200,8 @@ public final class ParetoFront {
             if (!inserted) {
                 insert(packedTuple, insertionPoint);
             }
+
+            System.out.println("inserting " + criteriaToString(packedTuple));
 
             return this;
         }
@@ -256,10 +271,11 @@ public final class ParetoFront {
          * @param action the action to perform on each packed criterion.
          */
         public void forEach(LongConsumer action) {
-            for (long value : frontier) {
-                action.accept(value);
+            for (int i = 0; i < size; i++) {
+                action.accept(frontier[i]);
             }
         }
+
 
 
         /**
@@ -297,7 +313,6 @@ public final class ParetoFront {
             }
             return sb.toString();
         }
-
 
         /*************************************************
          *                 OWN METHODS                   *
@@ -354,5 +369,25 @@ public final class ParetoFront {
 
             size++;
         }
+
+        //TODO DELETE
+        public String criteriaToString(long crit) {
+            StringBuilder sb = new StringBuilder("entry:\n");
+            long value = crit;
+            int arrMins = PackedCriteria.arrMins(value);
+            int changes = PackedCriteria.changes(value);
+            Integer depMins = PackedCriteria.hasDepMins(value) ? PackedCriteria.depMins(value) : null;
+            sb.append("[");
+
+            if (depMins != null) {
+                sb.append("Departure: ").append(depMins).append(" min, ");
+            }
+            sb.append("Arrival: ").append(arrMins).append(" min, ")
+                    .append("Changes: ").append(changes)
+                    .append("]\n");
+
+            return sb.toString();
+        }
+
     }
 }

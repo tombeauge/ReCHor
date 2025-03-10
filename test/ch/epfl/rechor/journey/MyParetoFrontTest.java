@@ -196,7 +196,7 @@ public class MyParetoFrontTest {
         builder.add(10, 4, 4);
 
         ParetoFront front = builder.build();
-        System.out.println(front.toString());
+
         int[] count = {0};
         front.forEach(value -> count[0]++);
 
@@ -270,8 +270,6 @@ public class MyParetoFrontTest {
 
         builder2.addAll(builder1);
         ParetoFront front = builder2.build();
-
-        System.out.println(front.toString());
 
         assertEquals(front.get(2, 30), PackedCriteria.pack(2, 30, 409));
         assertEquals(4, front.size());
@@ -388,7 +386,7 @@ public class MyParetoFrontTest {
         copy.add(250, 9, 200);
         ParetoFront frontOriginal = builder.build();
         ParetoFront frontCopy = copy.build();
-        System.out.println(frontCopy);
+
         // The original builder should not include the newly added element
         assertThrows(NoSuchElementException.class, () -> frontOriginal.get(250, 9));
         assertDoesNotThrow(() -> frontCopy.get(250, 9));
@@ -401,7 +399,7 @@ public class MyParetoFrontTest {
         builder.add(250, 9, 200);
 
         ParetoFront front = builder.build();
-        System.out.println(front);
+
         assertDoesNotThrow(() -> front.get(250, 9));
         assertThrows(NoSuchElementException.class, () -> front.get(300, 10));
 
@@ -500,6 +498,26 @@ public class MyParetoFrontTest {
                 }
             });
         });
+    }
+
+    @Test
+    public void dominatesEmptyFront(){
+        ParetoFront.Builder builder1 = new ParetoFront.Builder();
+        ParetoFront.Builder builder2 = new ParetoFront.Builder();
+
+        assertTrue(builder1.fullyDominates(builder2, 0));
+        assertTrue(builder2.fullyDominates(builder1, 0));
+    }
+
+    @Test
+    public void dominatesAllWithNoDepMin(){
+        ParetoFront.Builder builder1 = new ParetoFront.Builder();
+        ParetoFront.Builder builder2 = new ParetoFront.Builder();
+
+        builder1.add(50, 30, 5);
+        builder2.add(30, 50, 3);
+
+        assertThrows(IllegalArgumentException.class, () -> builder1.fullyDominates(builder2, 0));
     }
 }
 

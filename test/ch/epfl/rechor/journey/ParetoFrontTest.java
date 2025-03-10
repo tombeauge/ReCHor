@@ -230,8 +230,18 @@ class ParetoFrontTest {
             naiveParetoFrontB.add(t);
             paretoFrontB.add(t);
 
+            //System.out.println("arrmins: " + arrMins);
+            //System.out.println("depmins: " + depMins);
+            //System.out.println("changes: " + changes);
+
             var expectedTuples = naiveParetoFrontB.toSortedList();
             var actualTuples = toSortedList(paretoFrontB);
+
+            System.out.println("actual:");
+            System.out.println(paretoFrontB.toString());
+            System.out.println("expected:");
+            System.out.println(naiveParetoFrontB.toString());
+
             assertEquals(expectedTuples, actualTuples);
         }
     }
@@ -286,12 +296,13 @@ class ParetoFrontTest {
         }
 
         private static String tupleToString(long pTuple) {
-            return String.format("%s%s/%d",
-                    PackedCriteria.hasDepMins(pTuple)
-                            ? formatMins(PackedCriteria.depMins(pTuple)) + "-"
-                            : "",
-                    formatMins(PackedCriteria.arrMins(pTuple)),
-                    PackedCriteria.changes(pTuple));
+//            return String.format("%s%s/%d",
+//                    PackedCriteria.hasDepMins(pTuple)
+//                            ? formatMins(PackedCriteria.depMins(pTuple)) + "-"
+//                            : "",
+//                    formatMins(PackedCriteria.arrMins(pTuple)),
+//                    PackedCriteria.changes(pTuple));
+            return Integer.toString(PackedCriteria.depMins(pTuple));
         }
     }
 }
