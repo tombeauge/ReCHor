@@ -183,6 +183,8 @@ public final class ParetoFront {
                         size--;
                         //System.out.println("to remove: " + frontier[src]);
                     }
+                } else if (PackedCriteria.dominatesOrIsEqual(PackedCriteria.withPayload(frontier[src], 0), newTupleForComp)){
+                    return this;
                 }
                 else {
                     if (dst != src) {
