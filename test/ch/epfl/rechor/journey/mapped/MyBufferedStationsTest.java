@@ -44,12 +44,22 @@ public class MyBufferedStationsTest {
     void longTest() {
         BufferedStations bufferedStation = new BufferedStations(getStringList(), getStationsByteBuffer());
         assertEquals(true,(6.629092 - bufferedStation.longitude(0)) < 0.00001);
+        assertEquals(true,(6.837875 - bufferedStation.longitude(1)) < 0.00001);
+
     }
 
     @Test
     void latTest() {
         BufferedStations bufferedStation = new BufferedStations(getStringList(), getStationsByteBuffer());
         assertEquals(true,(46.516792 - bufferedStation.latitude(0)) < 0.00001);
+        assertEquals(true,(46.542764 - bufferedStation.latitude(1)) < 0.00001);
+    }
+
+    @Test
+    void nameTest() {
+        BufferedStations bufferedStation = new BufferedStations(getStringList(), getStationsByteBuffer());
+        assertEquals(bufferedStation.name(0), "Lausanne");
+        assertEquals(bufferedStation.name(1), "Palézieux");
     }
 
 }
