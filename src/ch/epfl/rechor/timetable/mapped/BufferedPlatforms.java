@@ -7,6 +7,10 @@ import java.util.List;
 
 import static ch.epfl.rechor.timetable.mapped.Structure.field;
 
+/**
+ * Final class implementing the interface Platforms to decipher elements in buffer.
+ * @author Cem Celik
+ */
 public final class BufferedPlatforms implements Platforms {
 
     List<String> stringTable;
@@ -16,6 +20,14 @@ public final class BufferedPlatforms implements Platforms {
     StructuredBuffer platformStructureBuffer;
     Structure platformStructure;
 
+    /**
+     * Constructs a BufferedPlatform with a bytebuffer and a string table allowing the user to
+     * access elements and their meaning in the byte array.
+     * The constructor also initiates the platform structure using specific fields and their lengths.
+     *
+     * @param stringTable with names referring to stations, platforms, etc
+     * @param buffer is a byte array
+     */
     public BufferedPlatforms(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
         this.buffer = buffer;

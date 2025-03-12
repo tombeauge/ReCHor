@@ -7,6 +7,11 @@ import java.util.List;
 
 import static ch.epfl.rechor.timetable.mapped.Structure.field;
 
+/**
+ * Final class implementing the interface StationsAliases to decipher elements in buffer.
+ *
+ * @author Cem Celik
+ */
 public final class BufferedStationAliases implements StationAliases {
 
     List<String> stringTable;
@@ -16,8 +21,13 @@ public final class BufferedStationAliases implements StationAliases {
     StructuredBuffer stationAliasesStructureBuffer;
     Structure stationAliasesStructure;
 
-
-
+    /**
+     * Constructs a BufferedStationAlias with a bytebuffer and a string table allowing the user to
+     * access elements and their meaning in the byte array.
+     * The constructor also initiates the stationAlias structure using specific fields and their lengths.
+     * @param stringTable with names referring to stations, platforms, etc
+     * @param buffer is a byte array
+     */
     public BufferedStationAliases(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
         this.buffer = buffer;

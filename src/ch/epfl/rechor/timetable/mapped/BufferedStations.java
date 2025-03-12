@@ -7,6 +7,11 @@ import java.util.List;
 import static ch.epfl.rechor.timetable.mapped.Structure.field;
 import static java.lang.Math.scalb;
 
+/**
+ * Final class implementing the interface Stations to decipher elements in buffer.
+ *
+ * @author Cem Celik
+ */
 public final class BufferedStations implements Stations {
 
     List<String> stringTable;
@@ -18,6 +23,13 @@ public final class BufferedStations implements Stations {
     Structure stationStructure;
     static final double LONG_LAT_CONSTANT = scalb(360, -32);
 
+    /**
+     * Constructs a BufferedStation with a bytebuffer and a string table allowing the user to
+     * access elements and their meaning in the byte array.
+     * The constructor also initiates the station structure using fields and their lengths.
+     * @param stringTable with names referring to stations, platforms, etc
+     * @param buffer is a byte array
+     */
     public BufferedStations(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
         this.buffer = buffer;
@@ -25,8 +37,8 @@ public final class BufferedStations implements Stations {
                                          field(LON, Structure.FieldType.S32),
                                          field(LAT, Structure.FieldType.S32));
         stationStructureBuffer = new StructuredBuffer(stationStructure, buffer);
-
     }
+
 
     @Override
     public String name(int id) {
