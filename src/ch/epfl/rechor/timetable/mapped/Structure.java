@@ -55,6 +55,9 @@ public class Structure {
      * @return the offset required to reach the value in a given fieldindex and element index
      */
     public int offset(int fieldIndex, int elementIndex) {
+        if (elementIndex < 0) {
+            throw new IndexOutOfBoundsException("Element index cannot be negative");
+        }
         return (elementIndex * this.totalSize()) + fieldBytePos[fieldIndex];
     }
 
