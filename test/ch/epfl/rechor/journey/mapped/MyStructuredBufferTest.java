@@ -39,6 +39,21 @@ public class MyStructuredBufferTest {
         });
     }
 
+    @Test
+    void getU8Test() {
+        Structure stationStructure = new Structure(
+                field(0, Structure.FieldType.U16),
+                field(1, Structure.FieldType.S32),
+                field(2, Structure.FieldType.S32));
+        StructuredBuffer stationStructureBuffer = new StructuredBuffer(stationStructure, getStationsByteBuffer());
+        System.out.println(stationStructureBuffer.getU8(2,1));
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            stationStructureBuffer.getU8(-1, 0);
+            stationStructureBuffer.getU8(5, 0);
+            stationStructureBuffer.getU8(0, -1);
+        });
+    }
+
     //I didn't add any other tests for the get16s cus they get tested via the buffered stations and other tests already
 
 
