@@ -4,6 +4,7 @@ import ch.epfl.rechor.Bits32_24_8;
 import ch.epfl.rechor.timetable.Connections;
 
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 /**
  * {@code BufferedConnections} provides access to a flattened table of public transport connections.
@@ -16,7 +17,7 @@ public final class BufferedConnections implements Connections {
 
     private final StructuredBuffer connectionsStructuredBuffer;
     private final Structure connectionsStructure;
-    private final ByteBuffer succBuffer;
+    private final IntBuffer succBuffer;
 
     private static final int DEP_STOP_ID = 0;
     private static final int DEP_MINUTES = 1;
@@ -40,7 +41,7 @@ public final class BufferedConnections implements Connections {
         );
 
         connectionsStructuredBuffer = new StructuredBuffer(connectionsStructure, buffer);
-        this.succBuffer = succBuffer;
+        this.succBuffer = succBuffer.asIntBuffer();
     }
 
     /**
