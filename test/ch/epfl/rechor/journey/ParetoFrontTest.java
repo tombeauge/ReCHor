@@ -237,9 +237,9 @@ class ParetoFrontTest {
             var expectedTuples = naiveParetoFrontB.toSortedList();
             var actualTuples = toSortedList(paretoFrontB);
 
-            System.out.println("actual:");
+            //System.out.println("actual:");
             System.out.println(paretoFrontB.toString());
-            System.out.println("expected:");
+            //System.out.println("expected:");
             System.out.println(naiveParetoFrontB.toString());
 
             assertEquals(expectedTuples, actualTuples);

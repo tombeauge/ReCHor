@@ -1,14 +1,12 @@
-package ch.epfl.rechor.journey.mapped;
+package ch.epfl.rechor.timetable.mapped;
 
-import ch.epfl.rechor.timetable.mapped.Structure;
-import ch.epfl.rechor.timetable.mapped.StructuredBuffer;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
 import java.util.HexFormat;
 import java.util.Random;
 
-import static ch.epfl.rechor.journey.mapped.MyBufferedStationsTest.hexFormat;
+import static ch.epfl.rechor.timetable.mapped.MyBufferedStationsTest.hexFormat;
 import static ch.epfl.rechor.timetable.mapped.Structure.field;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -172,16 +172,13 @@ public final class ParetoFront {
             int n = size;
             for (int src = insertionPoint; src < n; src++) {
                 if (PackedCriteria.dominatesOrIsEqual(newTupleForComp, PackedCriteria.withPayload(frontier[src], 0))) {
-                    System.out.println(frontier[src] + " is dominated");
                     if (!inserted){
-                        //System.out.println("to remove through insertion: " + frontier[src]);
                         frontier[src] = packedTuple;
                         inserted = true;
                         dst++;
                     }
                     else {
                         size--;
-                        //System.out.println("to remove: " + frontier[src]);
                     }
                 } else if (PackedCriteria.dominatesOrIsEqual(PackedCriteria.withPayload(frontier[src], 0), newTupleForComp)){
                     return this;

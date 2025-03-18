@@ -1,6 +1,5 @@
-package ch.epfl.rechor.journey.mapped;
+package ch.epfl.rechor.timetable.mapped;
 
-import ch.epfl.rechor.timetable.mapped.BufferedStations;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
