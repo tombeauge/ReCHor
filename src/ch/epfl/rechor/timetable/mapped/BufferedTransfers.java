@@ -1,5 +1,6 @@
 package ch.epfl.rechor.timetable.mapped;
 
+import ch.epfl.rechor.PackedRange;
 import ch.epfl.rechor.timetable.Transfers;
 
 import java.nio.ByteBuffer;
@@ -85,6 +86,10 @@ public final class BufferedTransfers implements Transfers {
         if (stationId < 0 || stationId >= arrivalTable.length) {
             throw new IndexOutOfBoundsException("Invalid station ID: " + stationId);
         }
+
+        if (arrivalTable[stationId] == 0xFFFFFFFF) {
+            throw new NoSuchElementException("No transfers arrive at station " + stationId);
+        }
         return arrivalTable[stationId];
     }
 
@@ -99,8 +104,9 @@ public final class BufferedTransfers implements Transfers {
      */
     @Override
     public int minutesBetween(int depStationId, int arrStationId) {
-        checkTransferId(depStationId);
-        checkTransferId(arrStationId);
+        if (depStationId < 0 || arrStationId < 0) {
+            throw new IndexOutOfBoundsException("Invalid station index");
+        }
 
         for (int i = 0; i < size(); i++) {
             int currArrivalStation = transfersStructuredBuffer.getU16(ARR_STATION_ID, i);
@@ -139,12 +145,20 @@ public final class BufferedTransfers implements Transfers {
 
         int[] arrivalTable = new int[maxStationId + 1];
 
-        //initialising all values to -1 by default to indicate no transfers
-        Arrays.fill(arrivalTable, -1);
+        //initialising all values to an impossible value to indicate no transfers
+        Arrays.fill(arrivalTable, 0xFFFFFFFF);
 
-        for (int i = 0; i < size(); i++) {
-            int stationId = transfersStructuredBuffer.getU16(ARR_STATION_ID, i);
-            arrivalTable[stationId] = i;
+        int currentStart = 0;
+        for (int stationId = 0; stationId <= maxStationId; stationId++) {
+            int start = currentStart;
+            while (currentStart < size() &&
+                    transfersStructuredBuffer.getU16(ARR_STATION_ID, currentStart) == stationId) {
+                currentStart++;
+            }
+            int end = currentStart;
+            if (start < end) {
+                arrivalTable[stationId] = PackedRange.pack(start, end);
+            }
         }
 
         return arrivalTable;

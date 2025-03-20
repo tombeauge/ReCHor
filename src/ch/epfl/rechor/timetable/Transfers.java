@@ -32,6 +32,7 @@ public interface Transfers extends Indexed {
      *
      * @param stationId the station index
      * @return the packed interval of transfer indices
+     * @throws NoSuchElementException if no transfers between the two stations
      * @throws IndexOutOfBoundsException if stationId is not in range [0, size())
      */
     int arrivingAt(int stationId);
