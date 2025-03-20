@@ -34,7 +34,6 @@ public class MyBufferedStationAliasesTest {
     void sizeTest() {
         BufferedStationAliases bufferedStationAlias = new BufferedStationAliases(getStringList(), getStationsAliasesByteBuffer());
         assertEquals(2, bufferedStationAlias.size());
-        System.out.println(bufferedStationAlias.size());
     }
 
     @Test

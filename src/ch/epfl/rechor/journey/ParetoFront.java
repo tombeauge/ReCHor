@@ -200,8 +200,6 @@ public final class ParetoFront {
                 insert(packedTuple, insertionPoint);
             }
 
-            System.out.println("inserting " + criteriaToString(packedTuple));
-
             return this;
         }
 

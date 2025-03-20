@@ -453,7 +453,7 @@ public class MyParetoFrontTest {
         }
 
         ParetoFront front = builder.build();
-        System.out.println("Random Front with DepTime: " + front.toString());
+        //System.out.println("Random Front with DepTime: " + front.toString());
     }
 
 
