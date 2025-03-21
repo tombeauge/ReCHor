@@ -87,7 +87,9 @@ public final class BufferedTransfers implements Transfers {
             throw new IndexOutOfBoundsException("Invalid station ID: " + stationId);
         }
 
-        if (arrivalTable[stationId] == 0xFFFFFFFF) {
+        //packed value (0,0) is the chosen default "no transfer" value
+        //TODO check instead that the interval is between a, b is strictly a < b
+        if (arrivalTable[stationId] == PackedRange.pack(0, 0)) {
             throw new NoSuchElementException("No transfers arrive at station " + stationId);
         }
         return arrivalTable[stationId];
@@ -146,7 +148,8 @@ public final class BufferedTransfers implements Transfers {
         int[] arrivalTable = new int[maxStationId + 1];
 
         //initialising all values to an impossible value to indicate no transfers
-        Arrays.fill(arrivalTable, 0xFFFFFFFF);
+        //since 0 is both included and excluded in the range, there are no transfers to this station
+        Arrays.fill(arrivalTable, PackedRange.pack(0, 0));
 
         int currentStart = 0;
         for (int stationId = 0; stationId <= maxStationId; stationId++) {
