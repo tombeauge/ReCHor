@@ -5,8 +5,11 @@ import ch.epfl.rechor.timetable.TimeTable;
 import ch.epfl.rechor.timetable.Trips;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Represents a profile containing a Pareto frontier for each station
@@ -60,5 +63,60 @@ public final record Profile(TimeTable timeTable, LocalDate date, int arrStationI
      */
     public ParetoFront forStation(int stationId){
         return stationFront.get(stationId);
+    }
+
+
+    public final static class Builder {
+
+        TimeTable timeTable;
+        LocalDate date;
+        int arrStationId;
+        ParetoFront.Builder[] stationsFrontierBuilders;
+        ParetoFront.Builder[] journeysFrontierBuilders;
+
+        public Builder(TimeTable timeTable, LocalDate date, int arrStationId) {
+            this.timeTable = timeTable;
+            this.date = date;
+            this.arrStationId = arrStationId;
+
+            //this.journeysFrontierBuilders = new ParetoFront.Builder[arrStationId];
+            //this.stationsFrontierBuilders = new ParetoFront.Builder[arrStationId];
+
+        }
+
+        public ParetoFront.Builder forStation(int stationId) {
+            return stationsFrontierBuilders[stationId];
+        }
+
+        public void setForStation(int stationId, ParetoFront.Builder builder) {
+            stationsFrontierBuilders[stationId] = builder;
+        }
+
+        public ParetoFront.Builder forTrip(int tripId) {
+            return journeysFrontierBuilders[tripId];
+        }
+
+        public void setForTrip(int tripId, ParetoFront.Builder builder) {
+            journeysFrontierBuilders[tripId] = builder;
+        }
+
+
+        public Profile build() {
+            List<ParetoFront> stationFrontiers = new ArrayList<>(stationsFrontierBuilders.length);
+            for (int i = 0; i < stationsFrontierBuilders.length; i++) {
+                // If the builder is null, replace with ParetoFront.EMPTY
+                if(stationFrontiers.get(i) == null){
+                    stationFrontiers.set(i, ParetoFront.EMPTY);
+                }
+                else {
+                    stationFrontiers.set(i, stationsFrontierBuilders[i].build());
+                }
+            }
+
+
+            return new Profile(timeTable, date, arrStationId, stationFrontiers);
+
+        }
+
     }
 }
