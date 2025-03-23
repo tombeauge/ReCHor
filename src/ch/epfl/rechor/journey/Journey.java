@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author Tom Beauge
  * @param legs
  */
-public final record Journey(List<Leg> legs) {
+public record Journey(List<Leg> legs) {
     /**
      * @throws IllegalArgumentException if the preconditions mentioned above are not met
      * @throws NullPointerException if current is null
