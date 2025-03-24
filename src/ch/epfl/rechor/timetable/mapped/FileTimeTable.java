@@ -42,7 +42,7 @@ public record FileTimeTable(
      * @return a FileTimeTable instance
      * @throws IOException if reading files fails
      */
-    public TimeTable in(Path directory) throws IOException{
+    public static TimeTable in(Path directory) throws IOException{
         Objects.requireNonNull(directory);
 
         Path stringsPath = directory.resolve("strings.txt");

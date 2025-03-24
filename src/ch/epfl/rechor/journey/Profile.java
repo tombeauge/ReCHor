@@ -79,9 +79,18 @@ public final record Profile(TimeTable timeTable, LocalDate date, int arrStationI
             this.date = date;
             this.arrStationId = arrStationId;
 
-            //this.journeysFrontierBuilders = new ParetoFront.Builder[arrStationId];
-            //this.stationsFrontierBuilders = new ParetoFront.Builder[arrStationId];
+            int stationCount = timeTable.stations().size();
+            int tripCount = timeTable.tripsFor(date).size();
 
+            this.stationsFrontierBuilders = new ParetoFront.Builder[stationCount];
+            this.journeysFrontierBuilders = new ParetoFront.Builder[tripCount];
+
+            for (int i = 0; i < stationCount; i++) {
+                this.stationsFrontierBuilders[i] = new ParetoFront.Builder();
+            }
+            for (int i = 0; i < tripCount; i++) {
+                this.journeysFrontierBuilders[i] = new ParetoFront.Builder();
+            }
         }
 
         public ParetoFront.Builder forStation(int stationId) {
@@ -103,19 +112,11 @@ public final record Profile(TimeTable timeTable, LocalDate date, int arrStationI
 
         public Profile build() {
             List<ParetoFront> stationFrontiers = new ArrayList<>(stationsFrontierBuilders.length);
-            for (int i = 0; i < stationsFrontierBuilders.length; i++) {
-                // If the builder is null, replace with ParetoFront.EMPTY
-                if(stationFrontiers.get(i) == null){
-                    stationFrontiers.set(i, ParetoFront.EMPTY);
-                }
-                else {
-                    stationFrontiers.set(i, stationsFrontierBuilders[i].build());
-                }
+            for (ParetoFront.Builder b : stationsFrontierBuilders) {
+                if (b == null) stationFrontiers.add(ParetoFront.EMPTY);
+                else stationFrontiers.add(b.build());
             }
-
-
             return new Profile(timeTable, date, arrStationId, stationFrontiers);
-
         }
 
     }
