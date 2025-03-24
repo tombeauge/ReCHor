@@ -151,17 +151,20 @@ public final class BufferedTransfers implements Transfers {
         //since 0 is both included and excluded in the range, there are no transfers to this station
         Arrays.fill(arrivalTable, PackedRange.pack(0, 0));
 
-        int currentStart = 0;
-        for (int stationId = 0; stationId <= maxStationId; stationId++) {
-            int start = currentStart;
-            while (currentStart < size() &&
-                    transfersStructuredBuffer.getU16(ARR_STATION_ID, currentStart) == stationId) {
-                currentStart++;
+        int start = 0;
+        while (start < size()) {
+            int stationId = transfersStructuredBuffer.getU16(ARR_STATION_ID, start);
+            int end = start + 1;
+
+            while (end < size() &&
+                    //increasing the interval if the new station is the same as the previous
+                    //assumes transfers are regrouped according to their arrival station
+                    transfersStructuredBuffer.getU16(ARR_STATION_ID, end) == stationId) {
+                end++;
             }
-            int end = currentStart;
-            if (start < end) {
-                arrivalTable[stationId] = PackedRange.pack(start, end);
-            }
+
+            arrivalTable[stationId] = PackedRange.pack(start, end);
+            start = end;
         }
 
         return arrivalTable;
