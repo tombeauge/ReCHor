@@ -23,8 +23,17 @@ public class MyJourneyExtractorTest {
         List<Journey> journeys = JourneyExtractor.journeys(p, departureStationId);
 
         System.out.println("Found " + journeys.size() + " journeys.");
-        System.out.println("Journey #32:");
-        System.out.println(JourneyIcalConverter.toIcalendar(journeys.get(32)));
+
+        if (journeys.size() > 32) {
+            System.out.println("Journey #32:");
+            System.out.println(JourneyIcalConverter.toIcalendar(journeys.get(32)));
+        } else if (!journeys.isEmpty()) {
+            System.out.println("Printing first journey instead:");
+            System.out.println(JourneyIcalConverter.toIcalendar(journeys.get(0)));
+        } else {
+            System.out.println("❌ No journeys found for the selected station and date.");
+        }
+
     }
 
     public static Profile readProfile(TimeTable timeTable,

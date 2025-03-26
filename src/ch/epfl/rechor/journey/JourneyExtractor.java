@@ -4,6 +4,7 @@ import ch.epfl.rechor.Bits32_24_8;
 import ch.epfl.rechor.timetable.Connections;
 import ch.epfl.rechor.timetable.TimeTable;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,17 +20,17 @@ public class JourneyExtractor {
 
         TimeTable tt = profile.timeTable();
 
-
         ParetoFront pf = profile.forStation(depStationId);
         pf.forEach((long criteria) -> {
+
             //extracting the data from the packed criteria
             int depMins = PackedCriteria.depMins(criteria);
             int arrMins = PackedCriteria.arrMins(criteria);
             int changes = PackedCriteria.changes(criteria);
 
             int payload = PackedCriteria.payload(criteria);
-            int connectionId = Bits32_24_8.unpack8(payload);
-            int stopsToRide = Bits32_24_8.unpack24(payload);
+            int connectionId = Bits32_24_8.unpack24(payload);
+            int stopsToRide = Bits32_24_8.unpack8(payload);
 
             List<Journey.Leg> legs = new ArrayList<>();
 
@@ -37,38 +38,55 @@ public class JourneyExtractor {
             int currentStopId = connections.depStopId(currentConnectionId);
             int finalArrivalStopId = -1; //since stopId cannot be negative
 
-            String destination = profile.trips().destination(connectionId);
+            System.out.println("✅ Corrected connection starts at: " + tt.stations().name(tt.stationId(currentStopId)));
+            System.out.println("current stop ID: " + currentStopId);
+            System.out.println("current station ID " + tt.stationId(currentStopId));
+
+
+            int tripId = connections.tripId(connectionId);
+            String destination = profile.trips().destination(tripId);
+            //String destination = profile.trips().destination(connectionId);
             
             while (true){
                 List<Journey.Leg.IntermediateStop> intermediateStops = new ArrayList<>();
 
                 for (int i = 0; i < stopsToRide; i++) {
                     currentConnectionId = connections.nextConnectionId(currentConnectionId);
+                    int stopId = connections.depStopId(currentConnectionId);
+                    int stationId = tt.stationId(stopId);
 
-                    Stop connectionStop = new Stop(tt.platformName(currentConnectionId), tt.platformName(currentConnectionId), tt.stations().longitude(currentConnectionId), tt.stations().latitude(currentConnectionId));
+                    Stop connectionStop = new Stop(tt.platformName(stopId), tt.platformName(stopId), tt.stations().longitude(stationId), tt.stations().latitude(stationId));
                     int intStopDepMins = connections.depMins(currentConnectionId);
                     int intStopArrMins = connections.arrMins(currentConnectionId);
 
-                    LocalDateTime intStopDepDateTime = profile.date().atTime(intStopDepMins / 60, intStopDepMins % 60);
-                    LocalDateTime intStopArrDateTime = profile.date().atTime(intStopArrMins / 60, intStopArrMins % 60);
+                    LocalDateTime intStopDepDateTime = toDateTime(profile.date(), intStopDepMins);
+                    LocalDateTime intStopArrDateTime = toDateTime(profile.date(), intStopDepMins);
 
                     Journey.Leg.IntermediateStop intStop = new Journey.Leg.IntermediateStop(connectionStop, intStopDepDateTime, intStopArrDateTime);
 
                     intermediateStops.add(intStop);
                 }
 
-                int tripId = connections.tripId(currentConnectionId);
+                //int tripId = connections.tripId(currentConnectionId);
                 int routeId = profile.trips().routeId(tripId);
 
                 String route = tt.routes().name(routeId);
                 Vehicle vehicle = tt.routes().vehicle(routeId);
 
-                Stop depStop = new Stop(tt.platformName(connectionId), tt.platformName(connectionId) , tt.stations().longitude(connectionId), tt.stations().latitude(connectionId));
-                Stop arrStop = new Stop(tt.platformName(currentConnectionId), tt.platformName(currentConnectionId), tt.stations().longitude(currentConnectionId), tt.stations().latitude(currentConnectionId));
+                int depStopId = connections.depStopId(connectionId);
+                int arrStopId = connections.arrStopId(currentConnectionId);
+
+                int arrStationId = tt.stationId(arrStopId);
+
+                int depStationIdFromDepStop = tt.stationId(depStopId);
+                Stop depStop = new Stop(tt.platformName(depStopId), tt.platformName(depStopId),
+                        tt.stations().longitude(depStationIdFromDepStop), tt.stations().latitude(depStationIdFromDepStop));
+
+                Stop arrStop = new Stop(tt.platformName(arrStopId), tt.platformName(arrStopId), tt.stations().longitude(arrStationId), tt.stations().latitude(arrStationId));
 
                 //converting to minutes from midnight as LocalDateTime
-                LocalDateTime departureDateTime = profile.date().atTime(depMins / 60, depMins % 60);
-                LocalDateTime arrivalDateTime = profile.date().atTime(arrMins / 60, arrMins % 60);
+                LocalDateTime departureDateTime = toDateTime(profile.date(), depMins);
+                LocalDateTime arrivalDateTime = toDateTime(profile.date(), arrMins);
 
                 Journey.Leg.Transport leg = new Journey.Leg.Transport(depStop, departureDateTime, arrStop, arrivalDateTime, intermediateStops, vehicle, route, destination);
 
@@ -84,8 +102,8 @@ public class JourneyExtractor {
                 try {
                     long nextCriteria = profile.forStation(currentStopId).get(arrMins, changes);
                     payload = PackedCriteria.payload(nextCriteria);
-                    currentConnectionId = Bits32_24_8.unpack8(payload);
-                    stopsToRide = Bits32_24_8.unpack24(payload);
+                    currentConnectionId = Bits32_24_8.unpack24(payload);
+                    stopsToRide = Bits32_24_8.unpack8(payload);
                 } catch (Exception e) {
                     return; //path cannot be continued
                 }
@@ -141,5 +159,11 @@ public class JourneyExtractor {
 
         return allJourneys;
     }
+
+    private static LocalDateTime toDateTime(LocalDate date, int minutesAfterMidnight) {
+        return date.atStartOfDay().plusMinutes(minutesAfterMidnight);
+    }
+
+
 
 }
