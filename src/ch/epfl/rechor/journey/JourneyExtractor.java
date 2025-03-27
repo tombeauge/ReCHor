@@ -55,7 +55,10 @@ public class JourneyExtractor {
                     int stopId = connections.depStopId(currentConnectionId);
                     int stationId = tt.stationId(stopId);
 
-                    Stop connectionStop = new Stop(tt.platformName(stopId), tt.platformName(stopId), tt.stations().longitude(stationId), tt.stations().latitude(stationId));
+                    String name = tt.stations().name(stationId);
+                    String platform = tt.platformName(stopId);
+
+                    Stop connectionStop = new Stop(name, platform, tt.stations().longitude(stationId), tt.stations().latitude(stationId));
                     int intStopDepMins = connections.depMins(currentConnectionId);
                     int intStopArrMins = connections.arrMins(currentConnectionId);
 
@@ -100,11 +103,13 @@ public class JourneyExtractor {
                 changes--;
 
                 try {
-                    long nextCriteria = profile.forStation(currentStopId).get(arrMins, changes);
+                    arrMins = connections.arrMins(currentConnectionId);
+                    long nextCriteria = profile.forStation(tt.stationId(currentStopId)).get(arrMins, changes);
                     payload = PackedCriteria.payload(nextCriteria);
                     currentConnectionId = Bits32_24_8.unpack24(payload);
                     stopsToRide = Bits32_24_8.unpack8(payload);
                 } catch (Exception e) {
+                    System.out.println(e);
                     return; //path cannot be continued
                 }
 
@@ -112,41 +117,48 @@ public class JourneyExtractor {
                 int nextDepStopId = connections.depStopId(currentConnectionId);
                 if (tt.stationId(nextDepStopId) != tt.stationId(currentStopId)) {
                     Stop footFrom = new Stop(tt.platformName(currentStopId), tt.platformName(currentStopId),
-                            tt.stations().longitude(currentStopId), tt.stations().latitude(currentStopId));
+                            tt.stations().longitude(tt.stationId(currentStopId)), tt.stations().latitude(tt.stationId(currentStopId)));
                     Stop footTo = new Stop(tt.platformName(nextDepStopId), tt.platformName(nextDepStopId),
-                            tt.stations().longitude(nextDepStopId), tt.stations().latitude(nextDepStopId));
+                            tt.stations().longitude(tt.stationId(nextDepStopId)), tt.stations().latitude(tt.stationId(nextDepStopId)));
 
-                    LocalDateTime footDepTime = profile.date().atTime(connections.arrMins(currentConnectionId) / 60,
-                            connections.arrMins(currentConnectionId) % 60);
-                    LocalDateTime footArrTime = profile.date().atTime(connections.depMins(currentConnectionId) / 60,
-                            connections.depMins(currentConnectionId) % 60);
+                    LocalDateTime footDepTime = toDateTime(profile.date(), connections.depMins(currentConnectionId));
+                    LocalDateTime footArrTime = toDateTime(profile.date(), connections.arrMins(currentConnectionId));
 
                     legs.add(new Journey.Leg.Foot(footFrom, footDepTime, footTo, footArrTime));
                 }
 
                 //adding an intial foot leg if the first connection departs from another station than depStationId
                 if (tt.stationId(connections.depStopId(connectionId)) != depStationId) {
-                    Stop footFrom = new Stop(tt.platformName(depStationId), tt.platformName(depStationId),
-                            tt.stations().longitude(depStationId), tt.stations().latitude(depStationId));
-                    Stop footTo = new Stop(tt.platformName(connections.depStopId(connectionId)), tt.platformName(connections.depStopId(connectionId)),
-                            tt.stations().longitude(connections.depStopId(connectionId)), tt.stations().latitude(connections.depStopId(connectionId)));
+                    int fromStationId = tt.stationId(depStationId);
+                    int toStopId = connections.depStopId(connectionId);
+                    int toStationId = tt.stationId(toStopId);
 
-                    LocalDateTime footDepTime = profile.date().atTime(depMins / 60, depMins % 60);
-                    LocalDateTime footArrTime = profile.date().atTime(connections.depMins(connectionId) / 60,
-                            connections.depMins(connectionId) % 60);
+                    Stop footFrom = new Stop(tt.stations().name(fromStationId), tt.platformName(depStationId),
+                            tt.stations().longitude(fromStationId), tt.stations().latitude(fromStationId));
+
+                    Stop footTo = new Stop(tt.stations().name(toStationId), tt.platformName(toStopId),
+                            tt.stations().longitude(toStationId), tt.stations().latitude(toStationId));
+
+
+                    LocalDateTime footDepTime = toDateTime(profile.date(), depMins);
+                    LocalDateTime footArrTime = toDateTime(profile.date(), connections.depMins(connectionId));
 
                     legs.add(0, new Journey.Leg.Foot(footFrom, footDepTime, footTo, footArrTime));
                 }
 
                 //adding a final foot leg if needed
                 if (tt.stationId(finalArrivalStopId) != profile.arrStationId()) {
-                    Stop footFrom = new Stop(tt.platformName(finalArrivalStopId), tt.platformName(finalArrivalStopId),
-                            tt.stations().longitude(finalArrivalStopId), tt.stations().latitude(finalArrivalStopId));
-                    Stop footTo = new Stop(tt.platformName(profile.arrStationId()), tt.platformName(profile.arrStationId()),
-                            tt.stations().longitude(profile.arrStationId()), tt.stations().latitude(profile.arrStationId()));
+                    int fromStationId = tt.stationId(finalArrivalStopId);
+                    int toStationId = profile.arrStationId();
 
-                    LocalDateTime footDepTime = profile.date().atTime(arrMins / 60, arrMins % 60);
-                    LocalDateTime footArrTime = profile.date().atTime(arrMins / 60, arrMins % 60); // same arrival time
+                    Stop footFrom = new Stop(tt.stations().name(fromStationId), tt.platformName(finalArrivalStopId),
+                            tt.stations().longitude(fromStationId), tt.stations().latitude(fromStationId));
+
+                    Stop footTo = new Stop(tt.stations().name(toStationId), tt.platformName(toStationId),
+                            tt.stations().longitude(toStationId), tt.stations().latitude(toStationId));
+
+                    LocalDateTime footDepTime = toDateTime(profile.date(), arrMins);
+                    LocalDateTime footArrTime = footDepTime;
 
                     legs.add(new Journey.Leg.Foot(footFrom, footDepTime, footTo, footArrTime));
                 }
