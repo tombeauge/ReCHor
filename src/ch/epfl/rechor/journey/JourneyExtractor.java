@@ -25,7 +25,7 @@ public class JourneyExtractor {
 
             //extracting the data from the packed criteria
             int depMins = PackedCriteria.depMins(criteria);
-            int arrMins = PackedCriteria.arrMins(criteria);
+            int finalArrMins = PackedCriteria.arrMins(criteria);
             int changes = PackedCriteria.changes(criteria);
 
             int payload = PackedCriteria.payload(criteria);
@@ -38,9 +38,10 @@ public class JourneyExtractor {
             int currentStopId = connections.depStopId(currentConnectionId);
             int finalArrivalStopId = -1; //since stopId cannot be negative
 
-            System.out.println("✅ Corrected connection starts at: " + tt.stations().name(tt.stationId(currentStopId)));
+            System.out.println("Corrected connection starts at: " + tt.stations().name(tt.stationId(currentStopId)));
             System.out.println("current stop ID: " + currentStopId);
             System.out.println("current station ID " + tt.stationId(currentStopId));
+            System.out.println("# OF CHANGES " + changes);
 
 
             int tripId = connections.tripId(connectionId);
@@ -89,7 +90,7 @@ public class JourneyExtractor {
 
                 //converting to minutes from midnight as LocalDateTime
                 LocalDateTime departureDateTime = toDateTime(profile.date(), depMins);
-                LocalDateTime arrivalDateTime = toDateTime(profile.date(), arrMins);
+                LocalDateTime arrivalDateTime = toDateTime(profile.date(), finalArrMins);
 
                 Journey.Leg.Transport leg = new Journey.Leg.Transport(depStop, departureDateTime, arrStop, arrivalDateTime, intermediateStops, vehicle, route, destination);
 
@@ -103,8 +104,23 @@ public class JourneyExtractor {
                 changes--;
 
                 try {
-                    arrMins = connections.arrMins(currentConnectionId);
-                    long nextCriteria = profile.forStation(tt.stationId(currentStopId)).get(arrMins, changes);
+                    int nextConnectionId = connections.nextConnectionId(currentConnectionId);
+
+                    int arrMins = connections.arrMins(nextConnectionId);
+                    currentStopId = connections.arrStopId(currentConnectionId);
+                    System.out.println("new stop: " + tt.stations().name(tt.stationId(currentStopId)));
+
+                    ParetoFront pf2 = profile.forStation(tt.stationId(currentStopId));
+
+                    System.out.println("should be the same: " + tt.stations().name(tt.stationId(connections.depStopId(nextConnectionId))) + " and " + tt.stations().name(tt.stationId(currentStopId)));
+
+                    System.out.println("arriving at station at: " + connections.arrMins(currentConnectionId));
+                    System.out.println("arriving to next station at: " + arrMins);
+                    System.out.println("looking for " + finalArrMins + " + " + changes);
+                    System.out.println("pare to front " + pf2.toString());
+
+
+                    long nextCriteria = profile.forStation(tt.stationId(currentStopId)).get(finalArrMins, changes);
                     payload = PackedCriteria.payload(nextCriteria);
                     currentConnectionId = Bits32_24_8.unpack24(payload);
                     stopsToRide = Bits32_24_8.unpack8(payload);
@@ -157,7 +173,7 @@ public class JourneyExtractor {
                     Stop footTo = new Stop(tt.stations().name(toStationId), tt.platformName(toStationId),
                             tt.stations().longitude(toStationId), tt.stations().latitude(toStationId));
 
-                    LocalDateTime footDepTime = toDateTime(profile.date(), arrMins);
+                    LocalDateTime footDepTime = toDateTime(profile.date(), finalArrMins);
                     LocalDateTime footArrTime = footDepTime;
 
                     legs.add(new Journey.Leg.Foot(footFrom, footDepTime, footTo, footArrTime));
@@ -165,7 +181,20 @@ public class JourneyExtractor {
 
             }
 
-            allJourneys.add(new Journey(legs));
+            System.out.println("Attempting to build journey:");
+            for (Journey.Leg leg : legs) {
+                System.out.println("→ " + leg.getClass().getSimpleName() +
+                        " from " + leg.depStop().name() + " (" + leg.depTime() + ")" +
+                        " to " + leg.arrStop().name() + " (" + leg.arrTime() + ")");
+            }
+
+
+            try {
+                allJourneys.add(new Journey(legs));
+            } catch (IllegalArgumentException e) {
+                System.out.println("Failed to build journey: " + e.getMessage());
+                throw e;
+            }
 
         });
 
