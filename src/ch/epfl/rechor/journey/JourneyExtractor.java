@@ -75,8 +75,11 @@ public class JourneyExtractor {
                         timeTable.stations().longitude(toStationId),
                         timeTable.stations().latitude(toStationId));
 
-                LocalDateTime footDepartureTime = toDateTime(profile.date(), departureMinutes);
-                LocalDateTime footArrivalTime = toDateTime(profile.date(), connections.depMins(connectionId));
+                //finding the time required to get to station
+                int transfMinsToStation = timeTable.transfers().minutesBetween(fromStationId, toStationId);
+
+                LocalDateTime footDepartureTime = toDateTime(profile.date(), connections.depMins(currentConnectionId)).minusMinutes(transfMinsToStation);
+                LocalDateTime footArrivalTime = toDateTime(profile.date(), connections.depMins(currentConnectionId));
 
                 legs.add(0, new Journey.Leg.Foot(footFrom, footDepartureTime, footTo, footArrivalTime));
             }
