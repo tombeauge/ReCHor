@@ -106,10 +106,4 @@ public class MyProfileTest {
 
     }
 
-    //profile.forStation(7872).forEach(c -> {
-    //    var c1 = Bits32_24_8.unpack24(PackedCriteria.payload(c));
-    //    var d = tt.connectionsFor(LocalDate.of(2025, Month.MARCH, 18)).depStopId(c1);
-    //    var n = tt.stations().name(tt.stationId(d));
-    //    System.out.printf("%016x %s\n", c, n);
-    //});
 }
