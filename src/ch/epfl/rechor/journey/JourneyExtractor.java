@@ -74,6 +74,7 @@ public class JourneyExtractor {
             while (true){
                 List<Journey.Leg.IntermediateStop> intermediateStops = new ArrayList<>();
                 int depStopId = connections.depStopId(currentConnectionId);
+                int depTimeWholeTrip = connections.depMins(currentConnectionId);
 
                 for (int i = 0; i < stopsToRide; i++) {
                     currentConnectionId = connections.nextConnectionId(currentConnectionId);
@@ -115,7 +116,7 @@ public class JourneyExtractor {
                 Stop arrStop = new Stop(tt.stations().name(tt.stationId(arrStopId)), tt.platformName(arrStopId), tt.stations().longitude(arrStationId), tt.stations().latitude(arrStationId));
 
                 //converting to minutes from midnight as LocalDateTime
-                LocalDateTime departureDateTime = toDateTime(profile.date(), connections.depMins(currentConnectionId));
+                LocalDateTime departureDateTime = toDateTime(profile.date(), depTimeWholeTrip);
                 LocalDateTime arrivalDateTime = toDateTime(profile.date(), connections.arrMins(currentConnectionId));
 
                 Journey.Leg.Transport leg = new Journey.Leg.Transport(depStop, departureDateTime, arrStop, arrivalDateTime, intermediateStops, vehicle, route, destination);

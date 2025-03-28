@@ -15,8 +15,8 @@ public class MyJourneyExtractorTest {
     public static void main(String[] args) throws IOException {
         TimeTable t = FileTimeTable.in(Path.of("timetable"));
         LocalDate date = LocalDate.of(2025, Month.MARCH, 18);
-        int arrivalStationId = 11486; // Gruyères
-        int departureStationId = 7872; // Ecublens VD, EPFL
+        int arrivalStationId = 11486; //gruyere
+        int departureStationId = 7872; //epfl
 
         Profile p = readProfile(t, date, arrivalStationId);
 
@@ -25,7 +25,7 @@ public class MyJourneyExtractorTest {
         System.out.println("Found " + journeys.size() + " journeys.\n");
 
         if (journeys.isEmpty()) {
-            System.out.println("❌ No journeys found for the selected station and date.");
+            System.out.println("No journeys found for the selected station and date.");
         } else {
             for (int i = 0; i < journeys.size(); i++) {
                 System.out.println("Journey #" + i + ":");
