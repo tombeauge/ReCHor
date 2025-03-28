@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -211,7 +212,13 @@ public class JourneyExtractor {
 
         });
 
-        return allJourneys;
+        //sorting the Journeys
+        List<Journey> journeys = allJourneys;
+        journeys.sort(Comparator
+                .comparing(Journey::depTime)
+                .thenComparing(Journey::arrTime));
+
+        return journeys;
     }
 
     private static LocalDateTime toDateTime(LocalDate date, int minutesAfterMidnight) {

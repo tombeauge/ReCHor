@@ -30,7 +30,7 @@ public final class Submit {
     // CONFIGURATION
     // -------------
     // Jeton du premier membre du groupe
-    private static final String TOKEN_1 = "iu2AiGi4"; //Cem 5th step
+    private static final String TOKEN_1 = "ieSa5ako"; //Cem 6th step
     // Jeton du second membre (identique au premier pour les personnes travaillant seules)
     private static final String TOKEN_2 = "sah6Iedu"; //Tom 6th step
     // Noms des éventuels fichiers Java additionnels à inclure (p.ex. "MyClass.java")
