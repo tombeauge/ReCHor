@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class JourneyExtractor {
 
@@ -37,6 +38,7 @@ public class JourneyExtractor {
             int currentConnectionId = connectionId;
             int currentStopId = connections.depStopId(currentConnectionId);
             int finalArrivalStopId = -1; //since stopId cannot be negative
+            int lastStopArrTime = -1; //TODO FIND BETTER PLACEHOLDER VALUE
 
             System.out.println("Corrected connection starts at: " + tt.stations().name(tt.stationId(currentStopId)));
             System.out.println("current stop ID: " + currentStopId);
@@ -70,6 +72,7 @@ public class JourneyExtractor {
 
             while (true){
                 List<Journey.Leg.IntermediateStop> intermediateStops = new ArrayList<>();
+                int depStopId = connections.depStopId(currentConnectionId);
 
                 for (int i = 0; i < stopsToRide; i++) {
                     currentConnectionId = connections.nextConnectionId(currentConnectionId);
@@ -77,6 +80,7 @@ public class JourneyExtractor {
                     int stationId = tt.stationId(stopId);
 
                     String name = tt.stations().name(stationId);
+                    System.out.println("going through " + name);
                     String platform = tt.platformName(stopId);
 
                     Stop connectionStop = new Stop(name, platform, tt.stations().longitude(stationId), tt.stations().latitude(stationId));
@@ -98,7 +102,7 @@ public class JourneyExtractor {
                 Vehicle vehicle = tt.routes().vehicle(routeId);
 
 //                int depStopId = connections.depStopId(connectionId);
-                int depStopId = connections.depStopId(currentConnectionId);
+                //int depStopId = connections.depStopId(currentConnectionId);
                 int arrStopId = connections.arrStopId(currentConnectionId);
 
                 int arrStationId = tt.stationId(arrStopId);
@@ -110,8 +114,8 @@ public class JourneyExtractor {
                 Stop arrStop = new Stop(tt.stations().name(tt.stationId(arrStopId)), tt.platformName(arrStopId), tt.stations().longitude(arrStationId), tt.stations().latitude(arrStationId));
 
                 //converting to minutes from midnight as LocalDateTime
-                LocalDateTime departureDateTime = toDateTime(profile.date(), depMins);
-                LocalDateTime arrivalDateTime = toDateTime(profile.date(), finalArrMins);
+                LocalDateTime departureDateTime = toDateTime(profile.date(), connections.depMins(currentConnectionId));
+                LocalDateTime arrivalDateTime = toDateTime(profile.date(), connections.arrMins(currentConnectionId));
 
                 Journey.Leg.Transport leg = new Journey.Leg.Transport(depStop, departureDateTime, arrStop, arrivalDateTime, intermediateStops, vehicle, route, destination);
 
@@ -131,39 +135,39 @@ public class JourneyExtractor {
                     currentStopId = connections.arrStopId(currentConnectionId);
                     System.out.println("new stop: " + tt.stations().name(tt.stationId(currentStopId)));
 
-                    ParetoFront pf2 = profile.forStation(tt.stationId(currentStopId));
-
-                    System.out.println("should be the same: " + tt.stations().name(tt.stationId(connections.depStopId(nextConnectionId))) + " and " + tt.stations().name(tt.stationId(currentStopId)));
-
-                    System.out.println("arriving at station at: " + connections.arrMins(currentConnectionId));
-                    System.out.println("arriving to next station at: " + arrMins);
-
 
                     long nextCriteria = profile.forStation(tt.stationId(currentStopId)).get(finalArrMins, changes);
                     depMins = PackedCriteria.depMins(nextCriteria); //the departure minutes for the new stop
 
                     payload = PackedCriteria.payload(nextCriteria);
-                    currentConnectionId = Bits32_24_8.unpack24(payload);
+                    int nextConnId = Bits32_24_8.unpack24(payload);
+                    int nextDepStopId = connections.depStopId(nextConnId);
+
+
+                    int minutesBetween = tt.transfers().minutesBetween(tt.stationId(currentStopId), tt.stationId(nextDepStopId));
+
+                    LocalDateTime footDepTime = toDateTime(profile.date(), connections.arrMins(currentConnectionId));
+                    LocalDateTime footArrTime = toDateTime(profile.date(), connections.arrMins(currentConnectionId) + minutesBetween); //like we already stated depMins is the departure time of the next stop
+
+                    //adding a foot leg if we do not arrive at the station of the next departure
+                    if (nextDepStopId != currentStopId) {
+
+                        Stop footFrom = arrStop; // safe since it was just added
+                        Stop footTo = new Stop(tt.stations().name(tt.stationId(nextDepStopId)), tt.platformName(nextDepStopId),
+                                tt.stations().longitude(tt.stationId(nextDepStopId)), tt.stations().latitude(tt.stationId(nextDepStopId)));
+
+                        legs.add(new Journey.Leg.Foot(footFrom, footDepTime, footTo, footArrTime));
+
+                    } else {
+                        legs.add(new Journey.Leg.Foot(arrStop, footDepTime, arrStop, footArrTime));
+                    }
+
+                    currentConnectionId = nextConnId;
                     stopsToRide = Bits32_24_8.unpack8(payload);
 
                 } catch (Exception e) {
                     System.out.println(e);
                     return; //path cannot be continued
-                }
-
-                //adding a foot leg if we do not arrive at the station of the next departure
-                int nextDepStopId = connections.depStopId(currentConnectionId);
-                if (nextDepStopId != currentStopId) {
-                    System.out.println("we need to walk from " + tt.stations().name(tt.stationId(currentStopId)) + " to " + tt.stations().name(tt.stationId(nextDepStopId)));
-                    Stop footFrom = new Stop(tt.stations().name(tt.stationId(currentStopId)), tt.platformName(currentStopId),
-                            tt.stations().longitude(tt.stationId(currentStopId)), tt.stations().latitude(tt.stationId(currentStopId)));
-                    Stop footTo = new Stop(tt.stations().name(tt.stationId(nextDepStopId)), tt.platformName(nextDepStopId),
-                            tt.stations().longitude(tt.stationId(nextDepStopId)), tt.stations().latitude(tt.stationId(nextDepStopId)));
-
-                    LocalDateTime footDepTime = toDateTime(profile.date(), connections.depMins(currentConnectionId));
-                    LocalDateTime footArrTime = toDateTime(profile.date(), connections.arrMins(currentConnectionId));
-
-                    legs.add(new Journey.Leg.Foot(footFrom, footDepTime, footTo, footArrTime));
                 }
 
             }
@@ -186,11 +190,16 @@ public class JourneyExtractor {
             }
 
             System.out.println("Attempting to build journey:");
-            for (Journey.Leg leg : legs) {
+            for (int i = 0; i < legs.size(); i++) {
+                Journey.Leg leg = legs.get(i);
                 System.out.println("→ " + leg.getClass().getSimpleName() +
-                        " from " + leg.depStop().name() + " (" + leg.depTime() + ")" +
-                        " to " + leg.arrStop().name() + " (" + leg.arrTime() + ")");
+                        " from " + leg.depStop() + " (" + leg.depTime() + ")" +
+                        " to " + leg.arrStop() + " (" + leg.arrTime() + ")");
+                if (leg.depStop() == null || leg.arrStop() == null || leg.depTime() == null || leg.arrTime() == null) {
+                    System.out.println("Null field in leg at index " + i);
+                }
             }
+
 
 
             try {
@@ -208,7 +217,4 @@ public class JourneyExtractor {
     private static LocalDateTime toDateTime(LocalDate date, int minutesAfterMidnight) {
         return date.atStartOfDay().plusMinutes(minutesAfterMidnight);
     }
-
-
-
 }
