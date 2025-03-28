@@ -90,7 +90,9 @@ public class JourneyExtractor {
                     int intStopArrMins = connections.arrMins(currentConnectionId);
 
                     LocalDateTime intStopDepDateTime = toDateTime(profile.date(), intStopDepMins);
-                    LocalDateTime intStopArrDateTime = toDateTime(profile.date(), intStopDepMins);
+                    LocalDateTime intStopArrDateTime = toDateTime(profile.date(), intStopArrMins);
+
+                    System.out.println(intStopDepDateTime + " , " + intStopArrDateTime);
 
                     Journey.Leg.IntermediateStop intStop = new Journey.Leg.IntermediateStop(connectionStop, intStopDepDateTime, intStopArrDateTime);
 
